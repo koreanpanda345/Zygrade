@@ -1,0 +1,18 @@
+{
+  "tasks": {
+    "start": "deno run --allow-read --allow-write --allow-sys --allow-env --allow-net --env-file=.env main.ts"
+  },
+  "imports": {
+    "@pkmn/dex": "npm:@pkmn/dex@^0.9.29",
+    "@pkmn/sets": "npm:@pkmn/sets@^5.1.2",
+    "@pkmn/sim": "npm:@pkmn/sim@^0.9.29",
+    "@pkmn/streams": "npm:@pkmn/streams@^1.1.0",
+    "axios": "npm:axios@^1.7.9",
+    "axios-cache-interceptor": "npm:axios-cache-interceptor@^1.6.2",
+    "discord.js": "npm:discord.js@^14.18.0",
+    "mongodb": "npm:mongodb@^6.13.0",
+    "pokenode-ts": "npm:pokenode-ts@^1.20.0",
+    "string-progressbar": "npm:string-progressbar@^1.0.4",
+    "winston": "npm:winston@^3.17.0"
+  }
+}

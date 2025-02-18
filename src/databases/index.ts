@@ -1,0 +1,56 @@
+import { Db, MongoClient } from "mongodb";
+import { PokemonSchema } from "./models/Trainer/Pokemon.ts";
+import { TrainerSchema } from "./models/Trainer/Trainer.ts";
+import { RouteSchema } from "./models/Game/Route.ts";
+import { QuestSchema } from "./models/Game/Quest.ts";
+import logger from "../utils/logger.ts";
+export default class Databases {
+  static TrainerClient: MongoClient = new MongoClient(
+    Deno.env.get("mongodb_trainer_uri") as string,
+  );
+  static TrainerDb: Db = new Db(this.TrainerClient, "Trainers");
+  static PokemonCollection = this.TrainerDb.collection<PokemonSchema>(
+    "pokemons",
+  );
+  static TrainerCollection = this.TrainerDb.collection<TrainerSchema>(
+    "trainers",
+  );
+
+  static GameClient: MongoClient = new MongoClient(
+    Deno.env.get("mongodb_game_uri") as string,
+  );
+  static GameDb: Db = new Db(this.GameClient, "Game");
+  static RouteCollection = this.GameDb.collection<RouteSchema>("routes");
+  static QuestCollection = this.GameDb.collection<QuestSchema>("quests");
+
+  static async connectAllDatabases() {
+    await this.connectGameDb();
+    await this.connectTrainerDb();
+
+    return { TrainerDb: this.TrainerDb, GameDb: this.GameDb };
+  }
+
+  static async connectTrainerDb() {
+    try {
+      await this.TrainerClient.connect();
+      await this.TrainerClient.db("admin").command({ ping: 1 });
+      logger.info(`Connected to Trainer's DB`);
+      return this.TrainerDb;
+    } catch (error) {
+      logger.error(error);
+      return null;
+    }
+  }
+
+  static async connectGameDb() {
+    try {
+      await this.GameClient.connect();
+      await this.GameClient.db("admin").command({ ping: 1 });
+      logger.info(`Connected to Game's DB`);
+      return this.GameDb;
+    } catch (error) {
+      logger.error(error);
+      return null;
+    }
+  }
+}
