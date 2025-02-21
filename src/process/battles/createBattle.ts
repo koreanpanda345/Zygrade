@@ -91,7 +91,7 @@ export default class CreateBattleProcess extends BaseProcess {
 		embed.addFields({
 			name: `${firstPlayerSpecies.name} Level ${firstPlayerPokemon.level}`,
 			value: `HP: ${filledBar(firstPlayerStats.hp, firstPlayerStats.hp, 20)[0]
-				} ${firstPlayerStats.hp}/${firstOpponentStats.hp}`,
+				} ${firstPlayerStats.hp}/${firstPlayerStats.hp}`,
 			inline: true,
 		}, {
 			name: `${firstOpponentSpecies.name} Level ${firstOpponentPokemon.level}`,

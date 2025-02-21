@@ -26,6 +26,7 @@ export default class HandleWinMonitor extends BaseMonitor {
     const battleType = battle.get("type") as string;
     const embed = battle.get("embed") as EmbedBuilder;
     const msg = battle.get("msg") as Message<boolean> | undefined;
+	console.debug(battle);
     if (!didWin && battleType === "wild") {
       embed.setTitle("Wild Encounter: Failed");
       embed.setDescription(
