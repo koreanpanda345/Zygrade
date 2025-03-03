@@ -52,7 +52,7 @@ export default class GetRandomPokemonProcess extends BaseProcess {
 			if (poke !== undefined) isReal = true;
 			else rng = Math.floor(Math.random() * wheel.length - 1);
 		}
-
+		console.log(wheel[rng]);
 		return wheel[rng];
 	}
 }

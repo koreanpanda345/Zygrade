@@ -36,6 +36,7 @@ export default class ReadyEvent extends BaseEvent {
       );
       // @ts-ignore
       console.log(
+        // @ts-ignore
         `Successfully reloaded ${data.length} application (/) commands.`,
       );
     } catch (error) {

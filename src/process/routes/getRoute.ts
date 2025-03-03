@@ -11,7 +11,6 @@ export default class GetRouteProcess extends BaseProcess {
       routeid: routeName.toLowerCase().replaceAll(" ", ""),
     });
 
-
     return route;
   }
 }

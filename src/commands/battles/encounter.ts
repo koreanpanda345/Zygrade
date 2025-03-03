@@ -8,6 +8,6 @@ export default class EncounterCommand extends BaseCommand {
 	}
 
 	override async invoke(interaction: CommandInteraction) {
-	  await ClientCache.invokeProcess('create-battle', interaction, "wild");
+	  await ClientCache.invokeProcess('wild-battle', interaction);
 	}
 }
