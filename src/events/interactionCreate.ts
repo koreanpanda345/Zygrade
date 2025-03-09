@@ -9,7 +9,10 @@ export default class InteractionCreateEvent extends BaseEvent {
 
   public override async invoke(interaction: Interaction) {
     if (interaction.isButton()) {
-      await ClientCache.invokeMonitor("handle-wild-battle-actions", interaction);
+      await ClientCache.invokeMonitor(
+        "handle-wild-battle-actions",
+        interaction,
+      );
     }
     if (!interaction.isChatInputCommand()) return;
     await ClientCache.invokeMonitor("handle-command", interaction);

@@ -8,4 +8,8 @@ export default abstract class BaseProcess {
   invoke(...args: any[]): Promise<any> {
     throw "not yet implemented";
   }
+
+  processQuests() {
+    throw "not yet implemented";
+  }
 }

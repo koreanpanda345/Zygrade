@@ -6,7 +6,7 @@ export default class GetLearnableMovesProcess extends BaseProcess {
   }
 
   override async invoke(name: string, level: number = 100) {
-	console.log(name);
+    console.log(name);
     const learnableMoves: string[] = [];
     const learnset = (await Dex.learnsets.get(name)).learnset!;
     for (const key of Object.keys(learnset)) {

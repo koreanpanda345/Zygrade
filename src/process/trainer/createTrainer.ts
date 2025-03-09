@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import BaseProcess from "../../base/BaseProcess.ts";
 import Databases from "../../databases/index.ts";
+import ClientCache from "../../core/cache.ts";
 
 export default class CreateTrainerProcess extends BaseProcess {
   constructor() {
@@ -20,6 +21,13 @@ export default class CreateTrainerProcess extends BaseProcess {
       inventory: [],
       money: 200,
       route: "kantoroute1",
+      quests: [
+        {
+          questid: "kanto_quest_1",
+          progress: [0, 1],
+          completed: false,
+        },
+      ],
     });
   }
 }

@@ -11,6 +11,7 @@ await Promise.all(
     "monitors",
     "process",
     "simulators",
+    "quests",
   ].map(async (dir) => await loadFiles(dir)),
 );
 

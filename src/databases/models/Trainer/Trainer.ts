@@ -9,4 +9,11 @@ export interface TrainerSchema {
     amount: number;
   }[];
   route: string;
+  quests: TrainerSchemaQuest[];
+}
+
+interface TrainerSchemaQuest {
+  questid: string;
+  progress: [number, number];
+  completed: boolean;
 }

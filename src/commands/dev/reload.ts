@@ -19,9 +19,9 @@ export default class ReloadCommand extends BaseCommand {
     await interaction.deferReply();
 
     try {
-      ["commands", "monitors", "process", "simulators"].map(async (dir) =>
-        await loadFiles(dir)
-      );
+      ["commands", "monitors", "process", "simulators", "quests"].map(async (
+        dir,
+      ) => await loadFiles(dir));
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {

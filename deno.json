@@ -3,6 +3,7 @@
     "start": "deno run --allow-read --allow-write --allow-sys --allow-env --allow-net --env-file=.env main.ts"
   },
   "imports": {
+    "@napi-rs/canvas": "npm:@napi-rs/canvas@^0.1.68",
     "@pkmn/dex": "npm:@pkmn/dex@^0.9.29",
     "@pkmn/sets": "npm:@pkmn/sets@^5.1.2",
     "@pkmn/sim": "npm:@pkmn/sim@^0.9.29",

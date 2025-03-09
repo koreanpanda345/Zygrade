@@ -2,7 +2,6 @@ import { Db, MongoClient } from "mongodb";
 import { PokemonSchema } from "./models/Trainer/Pokemon.ts";
 import { TrainerSchema } from "./models/Trainer/Trainer.ts";
 import { RouteSchema } from "./models/Game/Route.ts";
-import { QuestSchema } from "./models/Game/Quest.ts";
 import logger from "../utils/logger.ts";
 export default class Databases {
   static TrainerClient: MongoClient = new MongoClient(
@@ -21,7 +20,6 @@ export default class Databases {
   );
   static GameDb: Db = new Db(this.GameClient, "Game");
   static RouteCollection = this.GameDb.collection<RouteSchema>("routes");
-  static QuestCollection = this.GameDb.collection<QuestSchema>("quests");
 
   static async connectAllDatabases() {
     await this.connectGameDb();

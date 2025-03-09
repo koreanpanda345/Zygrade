@@ -7,23 +7,30 @@ import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
 import { ObjectId } from "mongodb";
 
 export default class AddPokemonProcess extends BaseProcess {
-    constructor() {
-        super('add-pokemon');
-    }
+  constructor() {
+    super("add-pokemon");
+  }
 
-    override async invoke(pokemon: PokemonSchema) {
-        const trainer = await ClientCache.invokeProcess('get-trainer', pokemon.discordUserId) as TrainerSchema;
-        
-        if (!trainer) return false;
+  override async invoke(pokemon: PokemonSchema) {
+    const trainer = await ClientCache.invokeProcess(
+      "get-trainer",
+      pokemon.discordUserId,
+    ) as TrainerSchema;
 
-        const _id = await Databases.PokemonCollection.insertOne(pokemon);
+    if (!trainer) return false;
 
-        if (trainer.team.length >= 6) return;
+    const _id = await Databases.PokemonCollection.insertOne(pokemon);
 
-        trainer.team.push(_id.insertedId as ObjectId);
+    if (trainer.team.length >= 6) return;
 
-        console.log(trainer.team);
+    trainer.team.push(_id.insertedId as ObjectId);
 
-        await Databases.TrainerCollection.updateOne({ discordUserId: trainer.discordUserId }, { $set: { team: trainer.team }});
-    }
+    console.log(trainer.team);
+
+    await Databases.TrainerCollection.updateOne({
+      discordUserId: trainer.discordUserId,
+    }, { $set: { team: trainer.team } });
+
+    return true;
+  }
 }

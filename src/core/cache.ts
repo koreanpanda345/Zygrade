@@ -5,6 +5,7 @@ import BaseMonitor from "../base/BaseMonitor.ts";
 import BaseTask from "../base/BaseTask.ts";
 import BaseProcess from "../base/BaseProcess.ts";
 import BaseSimulator from "../base/BaseSimulator.ts";
+import BaseQuest from "../base/BaseQuest.ts";
 
 export default class ClientCache {
   public static commands: Collection<string, BaseCommand> = new Collection();
@@ -14,6 +15,7 @@ export default class ClientCache {
   public static monitors: Collection<string, BaseMonitor> = new Collection();
   public static process: Collection<string, BaseProcess> = new Collection();
   public static tasks: Collection<string, BaseTask> = new Collection();
+  public static quests: Collection<string, BaseQuest> = new Collection();
 
   public static battles: Collection<string, Collection<string, any>> =
     new Collection();
@@ -54,5 +56,15 @@ export default class ClientCache {
       console.error(error);
       return false;
     }
+  }
+
+  static async handleQuests(type: string, userid: string, ...args: any[]) {
+    console.log("success");
+    this.quests.forEach(async (quest) => {
+      console.log(quest);
+      if (quest.questType === type) {
+        await quest.invoke(userid, ...args);
+      }
+    });
   }
 }
