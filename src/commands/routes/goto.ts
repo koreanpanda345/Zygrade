@@ -3,6 +3,7 @@ import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 import { RouteSchema } from "../../databases/models/Game/Route.ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
+import Databases from "../../databases/index.ts";
 
 export default class GoToCommand extends BaseCommand {
   constructor() {
@@ -30,6 +31,9 @@ export default class GoToCommand extends BaseCommand {
 
     if (!route) {
       // TODO: Add a message that will state that the route provided doesn't exist in the bot.
+      await interaction.editReply({
+        content: `It doesn't seem like \`${routeName}\` is a real route.`,
+      });
       return;
     }
 
@@ -42,10 +46,19 @@ export default class GoToCommand extends BaseCommand {
       return;
     }
 
+    if (!trainer.allowedRoutes.includes(route.routeid)) {
+      await interaction.editReply({
+        content:
+          "You can not explore that area just yet. Try completing quests and catch more pokemon to unlock this area.",
+      });
+      return;
+    }
+
     trainer.route = route.routeid!;
 
-    // @ts-ignore
-    await trainer.save();
+    await Databases.TrainerCollection.updateOne({
+      discordUserId: trainer.discordUserId,
+    }, { $set: { route: trainer.route } });
 
     await interaction.editReply({
       content: `You have traveled to ${route.name}!`,

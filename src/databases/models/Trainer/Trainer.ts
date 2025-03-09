@@ -9,6 +9,7 @@ export interface TrainerSchema {
     amount: number;
   }[];
   route: string;
+  allowedRoutes: string[];
   quests: TrainerSchemaQuest[];
 }
 

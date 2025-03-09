@@ -21,6 +21,7 @@ export default class CreateTrainerProcess extends BaseProcess {
       inventory: [],
       money: 200,
       route: "kantoroute1",
+      allowedRoutes: ["kantoroute1"],
       quests: [
         {
           questid: "kanto_quest_1",

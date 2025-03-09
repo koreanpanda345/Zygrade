@@ -25,6 +25,16 @@ export default class HandleCommandMonitor extends BaseMonitor {
       return;
     }
 
+    const checkDev = await ClientCache.invokeMonitor(
+      "handle-dev-only-commands",
+      interaction,
+      command,
+    ) as boolean;
+
+    if (!checkDev) {
+      return;
+    }
+
     try {
       await command.invoke(interaction);
     } catch (error) {

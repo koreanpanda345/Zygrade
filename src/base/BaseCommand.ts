@@ -3,6 +3,7 @@ import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 export default abstract class BaseCommand {
   data: SlashCommandBuilder;
   cooldown?: number;
+  devOnly?: boolean;
   constructor(
     name: string,
     description: string,

@@ -22,11 +22,13 @@ export default class WildBattleProcess extends BaseProcess {
   wildPokemon: PokemonSchema | null = null;
   userId: string = "";
   location: string = "";
+  interaction: CommandInteraction | null = null;
   constructor() {
     super("wild-battle");
   }
 
   override async invoke(interaction: CommandInteraction) {
+    this.interaction = interaction;
     await interaction.deferReply();
     this.userId = interaction.user.id;
     const streams = BattleStreams.getPlayerStreams(
@@ -407,6 +409,7 @@ export default class WildBattleProcess extends BaseProcess {
 
           mc.on("collect", async (i) => {
             await i.deferUpdate();
+            await i.editReply({ embeds: [winEmbed], components: [] });
             if (i.customId == "leave") {
               const leaveEmbed = new EmbedBuilder();
 
@@ -722,6 +725,7 @@ export default class WildBattleProcess extends BaseProcess {
       this.didCatch,
       this.wildPokemon,
       this.location,
+      this.interaction,
     );
   }
 }

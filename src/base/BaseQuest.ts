@@ -46,7 +46,8 @@ export default abstract class BaseQuest {
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
     }, { $set: { quests: trainer.quests } });
-    return true;
+    if (quest.completed) return true;
+    else return false;
   }
 
   async getProgress(userid: string) {

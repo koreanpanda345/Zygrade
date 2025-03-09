@@ -1,6 +1,8 @@
+import { CommandInteraction } from "discord.js";
 import BaseQuest from "../../base/BaseQuest.ts";
 import Databases from "../../databases/index.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
+import ClientCache from "../../core/cache.ts";
 
 export default class KantoQuest1 extends BaseQuest {
   constructor() {
@@ -17,6 +19,7 @@ export default class KantoQuest1 extends BaseQuest {
     didCatch: boolean,
     pokemon: PokemonSchema,
     location: string,
+    interaction: CommandInteraction,
   ) {
     const trainer = await Databases.TrainerCollection.findOne({
       discordUserId: userid,
@@ -31,7 +34,8 @@ export default class KantoQuest1 extends BaseQuest {
     const canGetReward = await this.updateProgress(userid, 1) as boolean;
 
     if (canGetReward) {
-      await this.getRewards(userid);
+      const result = await this.getRewards(userid);
+      await interaction.followUp({ content: result });
     }
   }
 
@@ -42,11 +46,17 @@ export default class KantoQuest1 extends BaseQuest {
 
     if (!trainer) return;
 
-    trainer.money += 3000;
+    trainer.money += 300;
+
+    trainer.quests.push({
+      questid: "kanto_quest_2",
+      progress: [0, 2],
+      completed: false,
+    });
 
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
-    }, { $set: { money: trainer.money } });
-    return "You received 3000 coins!";
+    }, { $set: { money: trainer.money, quests: trainer.quests } });
+    return "You received 300 coins! For Catching 1 pokemon total in Kanto Route 1";
   }
 }

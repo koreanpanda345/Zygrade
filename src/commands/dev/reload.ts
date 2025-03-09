@@ -5,17 +5,10 @@ import { loadFiles } from "../../utils/fs.ts";
 export default class ReloadCommand extends BaseCommand {
   constructor() {
     super("reload", "Reloads the bot!", (data) => data);
+    this.devOnly = true;
   }
 
   override async invoke(interaction: CommandInteraction) {
-    if (interaction.user.id !== Deno.env.get("discord_bot_owner") as string) {
-      await interaction.reply({
-        content: "You do not have permissions to use this command!",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-
     await interaction.deferReply();
 
     try {

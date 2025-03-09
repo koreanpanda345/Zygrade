@@ -24,11 +24,11 @@ export default class DeleteTrainerProcess extends BaseProcess {
     });
 
     if (!pokemon.acknowledged) {
-        return false
+      return false;
     } else {
-        console.log(
-            `Deleted ${pokemon.deletedCount} pokemon with user id ${userId}`,
-        )
+      console.log(
+        `Deleted ${pokemon.deletedCount} pokemon with user id ${userId}`,
+      );
     }
 
     return true;
