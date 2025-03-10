@@ -25,7 +25,12 @@ export default class UpdateQuestCommand extends BaseCommand {
                 if (trainerQuests.find(x => x.questid === quest?.nextQuestId)) continue;
                 const nextQuest = ClientCache.quests.get(quest?.nextQuestId!);
                 trainer.quests.push({ questid: nextQuest!.questId, progress: nextQuest!.progress, completed: false });
+                continue;
             }
+
+            const quest = ClientCache.quests.get(trainerQuest.questid);
+
+            if (trainerQuest.progress[1] !== quest!.progress[1]) trainerQuest.progress[1] = quest!.progress[1];
         }
 
         await Databases.TrainerCollection.updateOne({ discordUserId: trainer.discordUserId }, { $set: { quests: trainer.quests }});
