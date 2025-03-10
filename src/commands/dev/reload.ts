@@ -2,6 +2,7 @@ import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import { loadFiles } from "../../utils/fs.ts";
 import { exec, execSync } from "node:child_process";
+import ClientCache from "../../core/cache.ts";
 
 export default class ReloadCommand extends BaseCommand {
   constructor() {
@@ -19,6 +20,8 @@ export default class ReloadCommand extends BaseCommand {
       ["commands", "events", "monitors", "process", "simulators", "quests"].map(async (
         dir,
       ) => await loadFiles(dir));
+
+      await ClientCache.invokeProcess('reload-command');
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
