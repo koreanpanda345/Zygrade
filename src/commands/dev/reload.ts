@@ -1,6 +1,7 @@
 import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import { loadFiles } from "../../utils/fs.ts";
+import { exec, execSync } from "node:child_process";
 
 export default class ReloadCommand extends BaseCommand {
   constructor() {
@@ -12,7 +13,10 @@ export default class ReloadCommand extends BaseCommand {
     await interaction.deferReply();
 
     try {
-      ["commands", "monitors", "process", "simulators", "quests"].map(async (
+      execSync('git pull', { cwd: "."});
+      console.log("Pulled Everything from Github");
+
+      ["commands", "events", "monitors", "process", "simulators", "quests"].map(async (
         dir,
       ) => await loadFiles(dir));
 
