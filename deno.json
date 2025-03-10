@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-read --allow-write --allow-sys --allow-env --allow-net --env-file=.env main.ts"
+    "start": "deno run --allow-read --allow-write --allow-run --allow-sys --allow-env --allow-net --env-file=.env main.ts"
   },
   "imports": {
     "@napi-rs/canvas": "npm:@napi-rs/canvas@^0.1.68",
