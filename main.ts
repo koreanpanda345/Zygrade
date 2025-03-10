@@ -3,9 +3,7 @@ import DiscordClient from "./src/core/discord.ts";
 import { loadFiles } from "./src/utils/fs.ts";
 
 export const discordClient = new DiscordClient();
-
-console.log(Deno.env.get('TRAINER_PASSWORD'));
-
+console.log(Deno.env.get('mongodb_trainer_uri'));
 await Promise.all(
   [
     "commands",
