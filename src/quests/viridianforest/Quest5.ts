@@ -20,6 +20,7 @@ export default class KantoQuest5 extends BaseQuest {
       if(!trainer) return;
       if (!didWin) return;
       if (location !== "viridianforest") return;
+      if (!npc.name.startsWith("Bug Catcher")) return;
 
       const canGetReward = await this.updateProgress(userid, 1) as boolean;
 
