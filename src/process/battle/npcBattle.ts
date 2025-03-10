@@ -625,7 +625,7 @@ export default class NPCBattleProcess extends BaseProcess {
 
   override async processQuests() {
     await ClientCache.handleQuests(
-      "npc",
+      "beat",
       this.userId,
       this.didWin,
       this.npc,
