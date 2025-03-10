@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 
@@ -8,6 +8,8 @@ export default class EncounterCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
+
+    if (ClientCache.battles.has(interaction.user.id)) return await interaction.reply({ content: 'You are already in an encounter. Please finished your current encounter before starting a new one.', flags: MessageFlags.Ephemeral });
     const rng = Math.floor(Math.random() * 2);
     console.log(rng);
     if (rng == 0 || rng == 2) {
