@@ -9,6 +9,7 @@ import {
 } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import Databases from "../../databases/index.ts";
+import { Dex } from "@pkmn/dex";
 
 export default class PCCommand extends BaseCommand {
   constructor() {
@@ -35,10 +36,10 @@ export default class PCCommand extends BaseCommand {
       if (i >= y * page) page++;
       const index = page - 1;
       const embed = pages[index] ? pages[index] : new EmbedBuilder();
-
+      const dex = Dex.species.get(list[i].species);
       embed.setTitle(`PC`);
       embed.addFields({
-        name: `ID: ${i + 1} - Level ${list[i].level} ${list[i].species}`,
+        name: `ID: ${i + 1} - Level ${list[i].level} ${dex.name}`,
         value: `Ability: ${list[i].ability}`,
       });
 
