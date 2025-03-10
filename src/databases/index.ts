@@ -5,7 +5,7 @@ import { RouteSchema } from "./models/Game/Route.ts";
 import logger from "../utils/logger.ts";
 export default class Databases {
   static TrainerClient: MongoClient = new MongoClient(
-    Deno.env.get("mongodb_trainer_uri") as string,
+    Deno.env.get("mongodb_trainer_uri".toUpperCase()) as string,
   );
   static TrainerDb: Db = new Db(this.TrainerClient, "Trainers");
   static PokemonCollection = this.TrainerDb.collection<PokemonSchema>(
@@ -16,7 +16,7 @@ export default class Databases {
   );
 
   static GameClient: MongoClient = new MongoClient(
-    Deno.env.get("mongodb_game_uri") as string,
+    Deno.env.get("mongodb_game_uri".toUpperCase()) as string,
   );
   static GameDb: Db = new Db(this.GameClient, "Game");
   static RouteCollection = this.GameDb.collection<RouteSchema>("routes");

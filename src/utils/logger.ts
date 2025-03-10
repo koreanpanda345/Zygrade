@@ -18,7 +18,7 @@ const logger = createLogger({
   ],
 });
 
-if (Deno.env.get("node_env") !== "production") {
+if (Deno.env.get("WORKSPACE_STATE".toUpperCase()) !== "PRODUCTION") {
   logger.add(
     new transports.Console({
       format: combine(label({ label: "discord" }), timestamp(), consoleFormat),

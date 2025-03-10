@@ -19,7 +19,7 @@ export default class ReadyEvent extends BaseEvent {
     }
 
     const rest = new REST().setToken(
-      Deno.env.get("discord_client_token") as string,
+      Deno.env.get("discord_client_token".toUpperCase()) as string,
     );
 
     try {
@@ -29,8 +29,8 @@ export default class ReadyEvent extends BaseEvent {
       // console.log(discordClient.user?.id);
       const data = await rest.put(
         Routes.applicationGuildCommands(
-          Deno.env.get("discord_client_id") as string,
-          Deno.env.get("discord_server_id") as string,
+          Deno.env.get("discord_client_id".toUpperCase()) as string,
+          Deno.env.get("discord_server_id".toUpperCase()) as string,
         ),
         { body: commandData },
       );

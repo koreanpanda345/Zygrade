@@ -17,6 +17,6 @@ export default class DiscordClient extends Client {
       } else {this.on(event.name, async (...args: any[]) =>
           await event.invoke(...args));}
     });
-    await this.login(Deno.env.get("discord_client_token"));
+    await this.login(Deno.env.get("discord_client_token".toUpperCase()));
   }
 }

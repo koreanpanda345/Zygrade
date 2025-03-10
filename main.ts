@@ -3,7 +3,6 @@ import DiscordClient from "./src/core/discord.ts";
 import { loadFiles } from "./src/utils/fs.ts";
 
 export const discordClient = new DiscordClient();
-console.log(Deno.env.get('mongodb_trainer_uri'.toUpperCase()));
 await Promise.all(
   [
     "commands",
