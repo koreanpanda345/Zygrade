@@ -1,3 +1,4 @@
+import { CommandInteraction } from "discord.js";
 import BaseProcess from "../../base/BaseProcess.ts";
 import ClientCache from "../../core/cache.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
@@ -10,6 +11,7 @@ export default class HandleBattleExpProcess extends BaseProcess {
   override async invoke(
     playerTeam: PokemonSchema[],
     defeatedPokemon: PokemonSchema,
+    interaction: CommandInteraction,
   ) {
     const b =
       (await new PokemonClient().getPokemonByName(defeatedPokemon.species!))
@@ -40,6 +42,7 @@ export default class HandleBattleExpProcess extends BaseProcess {
         "handle-levels-and-exp",
         pokemon,
         gainExp,
+        interaction,
       );
     }
   }

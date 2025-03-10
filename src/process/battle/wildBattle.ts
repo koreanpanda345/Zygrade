@@ -278,7 +278,15 @@ export default class WildBattleProcess extends BaseProcess {
             const hp = sections[3].split("/")[0];
             battle.set(`${path}:stats:hp`, Number(hp));
           } else if (sections[1] === "-status") {
-            const lookForVolatiles = ["psn", "par", "frz", "fzn", "tox", "brn", "slp"];
+            const lookForVolatiles = [
+              "psn",
+              "par",
+              "frz",
+              "fzn",
+              "tox",
+              "brn",
+              "slp",
+            ];
             if (!lookForVolatiles.includes(sections[3])) continue;
             battle.get(`${path}:volatile`).push(sections[3]);
           } else if (sections[1] === "-start") {
@@ -618,34 +626,12 @@ export default class WildBattleProcess extends BaseProcess {
     const pokemonData = await new PokemonClient().getPokemonByName(
       this.wildPokemon!.species,
     );
-    // TODO: When adding in items, edit the equation to include Lucky Egg into exp equation
-    const egg = 1;
-    const favor = 1; // This is something to do with Gen VI where you can increase their affection which yields more experience.
-    const level = this.wildPokemon!.level;
-    const levelPlayer = Number(this.battle.get(`p1:team:0:level`));
-    const ppower = 1; // This has to do with Roto Powers in Gen VI
-    // TODO: Once we get everything working, I need to adjust this equation to allow Exp. Share.
-    const share = 1; // This has to do with Exp. Share
-    const originalTrainer = 1; // This has to deal with the owner of the pokemon. for now this will remain one till trading becomes a thing.
-    const isPastEvolutionAmount = 1; // This has to deal with if the level is past the level in which would cause the pokemon to evolve.
-
-    const gainedExp = await ClientCache.invokeProcess(
-      "handle-gain-exp",
-      pokemonData.base_experience,
-      egg,
-      favor,
-      level,
-      levelPlayer,
-      ppower,
-      share,
-      originalTrainer,
-      isPastEvolutionAmount,
-    );
 
     await ClientCache.invokeProcess(
-      "handle-levels-and-exp",
-      this.battle.get(`p1:team:0`),
-      gainedExp,
+      "handle-battl-exp",
+      this.battle.get("p1:team"),
+      this.battle.get("p2:team:0"),
+      this.interaction,
     );
 
     const catchButton = new ButtonBuilder().setCustomId("catch").setLabel(

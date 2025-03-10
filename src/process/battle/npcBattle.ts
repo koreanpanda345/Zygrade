@@ -288,8 +288,16 @@ export default class NPCBattleProcess extends BaseProcess {
           } else if (sections[1] === "-damage") {
             const hp = sections[3].split("/")[0];
             battle.set(`${path}:stats:hp`, Number(hp));
-          } else if (sections[1] === '-status') {
-            const lookForVolatiles = ["psn", "par", "frz", "fzn", "tox", "brn", "slp"];
+          } else if (sections[1] === "-status") {
+            const lookForVolatiles = [
+              "psn",
+              "par",
+              "frz",
+              "fzn",
+              "tox",
+              "brn",
+              "slp",
+            ];
             if (!lookForVolatiles.includes(sections[3])) continue;
             battle.get(`${path}:volatile`).push(sections[3]);
           } else if (sections[1] === "-start") {
@@ -335,6 +343,15 @@ export default class NPCBattleProcess extends BaseProcess {
             battle.set(`${newPath}:stats:maxhp`, Number(maxhp));
           } else if (sections[1] === "faint") {
             battle.set(`${path}:fainted`, true);
+
+            if (side === "p2") {
+              await ClientCache.invokeProcess(
+                "handle-battle-exp",
+                battle.get("p1:team"),
+                battle.get(`p2:team:${battle.get("p2:current")}`),
+                interaction,
+              );
+            }
           }
         }
       }
@@ -346,7 +363,9 @@ export default class NPCBattleProcess extends BaseProcess {
       p1: Number(battle.get(`p1:current`)),
       p2: Number(battle.get("p2:current")),
     };
-    if (!embed.data.title) embed.setTitle(`NPC Battle - ${battle.get('npc').name}`);
+    if (!embed.data.title) {
+      embed.setTitle(`NPC Battle - ${battle.get("npc").name}`);
+    }
     if (!embed.data.description) {
       embed.setDescription(`You are now battling ${battle.get("npc").name}!`);
     } else {

@@ -23,7 +23,6 @@ export default class GetRandomMoves extends BaseProcess {
 
   shouldAlwaysHave(species: string, level: number, movepool: string[]) {
     switch (species) {
-      
     }
 
     return movepool;
