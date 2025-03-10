@@ -49,6 +49,12 @@ export default class KantoQuest4 extends BaseQuest {
     trainer.money += 1000;
     trainer.allowedRoutes.push("viridianforest");
 
+    trainer.quests.push({
+      questid: 'kanto_quest_5',
+      progress: [0, 1],
+      completed: false
+    });
+
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
     }, {
