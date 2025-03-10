@@ -10,6 +10,7 @@ import { PokemonClient } from "pokenode-ts";
 export default class KantoQuest5 extends BaseQuest {
     constructor() {
         super("Beat 3 Bug Catchers in Viridian Forest", "kanto_quest_5", "beat", "You must defeat 3 Bug Catchers in Viridian Forest");
+        this.progress = [0, 3];
     }
 
     override async invoke(userid: string, didWin: boolean, npc: RouteSchemaTrainers, location: string, interaction: CommandInteraction) {

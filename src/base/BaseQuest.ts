@@ -5,6 +5,8 @@ export default abstract class BaseQuest {
   questId: string;
   questType: string;
   description: string;
+  progress: [number, number] = [0, 1];
+  nextQuestId: string = "";
   constructor(
     name: string,
     questId: string,
