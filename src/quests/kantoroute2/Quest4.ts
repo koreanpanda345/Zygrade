@@ -4,13 +4,13 @@ import Databases from "../../databases/index.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
 import ClientCache from "../../core/cache.ts";
 
-export default class KantoQuest3 extends BaseQuest {
+export default class KantoQuest4 extends BaseQuest {
   constructor() {
     super(
-      "Catch 5 Pokemon",
-      "kanto_quest_3",
+      "Catch 10 Pokemon",
+      "kanto_quest_4",
       "catch",
-      "Catch at least 5 pokemon in the kanto route 2 area",
+      "Catch at least 10 pokemon in the kanto route 2 area",
     );
   }
 
@@ -47,15 +47,17 @@ export default class KantoQuest3 extends BaseQuest {
     if (!trainer) return;
 
     trainer.money += 1000;
-    trainer.quests.push({
-      questid: "kanto_quest_4",
-      progress: [0, 10],
-      completed: false,
-    });
+    trainer.allowedRoutes.push("viridianforest");
 
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
-    }, { $set: { money: trainer.money, quests: trainer.quests } });
-    return "You received 1000 coins! For Catching 5 pokemon total in Kanto Route 2";
+    }, {
+      $set: {
+        money: trainer.money,
+        quests: trainer.quests,
+        allowedRoutes: trainer.allowedRoutes,
+      },
+    });
+    return "You received 1000 coins! For Catching 5 pokemon total in Kanto Route 2. You are now able to travel to `Viridian Forest`. Use the `/goto` command to travel there.";
   }
 }

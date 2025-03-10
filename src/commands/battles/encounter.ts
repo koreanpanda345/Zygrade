@@ -8,6 +8,12 @@ export default class EncounterCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
-    await ClientCache.invokeProcess("wild-battle", interaction);
+    const rng = Math.floor(Math.random() * 2);
+    console.log(rng);
+    if (rng == 0 || rng == 2) {
+      await ClientCache.invokeProcess("wild-battle", interaction);
+    } else if (rng == 1) {
+      await ClientCache.invokeProcess("npc-battle", interaction);
+    }
   }
 }

@@ -46,7 +46,7 @@ export async function loadFiles(dir: string) {
             ClientCache.tasks.set(_file.name, _file);
             break;
           case "quests":
-            ClientCache.quests.set(_file.name, _file);
+            ClientCache.quests.set(_file.questId, _file);
             break;
         }
       }

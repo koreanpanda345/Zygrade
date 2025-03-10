@@ -21,18 +21,21 @@ export default class GetRandomPokemonProcess extends BaseProcess {
     for (const encounter of encounters) {
       switch (encounter.rarity) {
         case 0: // Very Common
-          for (let i = 6; i > 0; i--) wheel.push(encounter.species);
+          for (let i = 7; i > 0; i--) wheel.push(encounter.species);
           break;
         case 1: // Common
-          for (let i = 5; i > 0; i--) wheel.push(encounter.species);
+          for (let i = 6; i > 0; i--) wheel.push(encounter.species);
           break;
         case 2: // Uncommon
-          for (let i = 4; i > 0; i--) wheel.push(encounter.species);
+          for (let i = 5; i > 0; i--) wheel.push(encounter.species);
           break;
         case 3: // Rare
-          for (let i = 3; i > 0; i--) wheel.push(encounter.species);
+          for (let i = 4; i > 0; i--) wheel.push(encounter.species);
           break;
         case 4: // Very Rare
+          for (let i = 3; i > 0; i--) wheel.push(encounter.species);
+          break;
+        case 5:
           for (let i = 2; i > 0; i--) wheel.push(encounter.species);
           break;
         case 6: // Mythical
@@ -52,7 +55,6 @@ export default class GetRandomPokemonProcess extends BaseProcess {
       if (poke !== undefined) isReal = true;
       else rng = Math.floor(Math.random() * wheel.length - 1);
     }
-    console.log(wheel[rng]);
     return wheel[rng];
   }
 }

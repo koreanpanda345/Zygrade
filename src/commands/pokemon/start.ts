@@ -169,7 +169,7 @@ export default class StartCommand extends BaseCommand {
       selectCollector.on("collect", async (i) => {
         const species = Dex.species.get(i.values[0]);
         const moves = (await ClientCache.invokeProcess(
-          "get-learnable-moves",
+          "get-random-moves",
           species.name,
           5,
         )) as string[];

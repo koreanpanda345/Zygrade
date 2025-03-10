@@ -1,4 +1,4 @@
-import { Collection, Interaction, MessageFlags } from "discord.js";
+import { Interaction } from "discord.js";
 import BaseEvent from "../base/BaseEvent.ts";
 import ClientCache from "../core/cache.ts";
 
@@ -11,6 +11,10 @@ export default class InteractionCreateEvent extends BaseEvent {
     if (interaction.isButton()) {
       await ClientCache.invokeMonitor(
         "handle-wild-battle-actions",
+        interaction,
+      );
+      await ClientCache.invokeMonitor(
+        "handle-npc-battle-actions",
         interaction,
       );
     }

@@ -1,12 +1,11 @@
-import { ButtonInteraction, CommandInteraction } from "discord.js";
-import ClientCache from "../../core/cache.ts";
+import { ButtonInteraction } from "discord.js";
 import BaseMonitor from "../../base/BaseMonitor.ts";
+import ClientCache from "../../core/cache.ts";
 import { ObjectReadStream, ObjectReadWriteStream } from "@pkmn/streams";
-import { RandomPlayerAI } from "@pkmn/sim";
 
-export default class HandleWildBattleActionsMonitor extends BaseMonitor {
+export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
   constructor() {
-    super("handle-wild-battle-actions");
+    super("handle-npc-battle-actions");
   }
 
   override async invoke(interaction: ButtonInteraction) {
@@ -17,7 +16,8 @@ export default class HandleWildBattleActionsMonitor extends BaseMonitor {
 
       if (!battle) return false; // do nothing
 
-      if (battle.get("type") !== "wild") return;
+      // Lets make sure we are looking at the correct type.
+      if (battle.get("type") !== "npc") return;
 
       const streams: {
         omniscient: ObjectReadWriteStream<string>;
@@ -28,25 +28,26 @@ export default class HandleWildBattleActionsMonitor extends BaseMonitor {
         p4: ObjectReadWriteStream<string>;
       } = battle.get("streams");
 
-      if (interaction.customId.startsWith("wild-move-")) {
+      console.log(interaction);
+
+      if (interaction.customId.startsWith("npc-move-")) {
         const move = interaction.customId.split("-")[2];
         streams.omniscient.write(`>p1 move ${move}`);
-        await interaction.deferUpdate();
       }
 
-      if (interaction.customId.startsWith("wild-switch-")) {
+      if (interaction.customId.startsWith("npc-switch-")) {
         const pokemon = interaction.customId.split("-")[2];
         streams.omniscient.write(
           `>p1 switch ${battle.get(`p1:team:${pokemon}:species`)}`,
         );
         battle.set(`p1:current`, pokemon);
-        await interaction.deferUpdate();
       }
 
-      if (interaction.customId.startsWith("wild-run")) {
-        streams.omniscient.write(`>forcewin p2`);
-        await interaction.deferUpdate();
+      if (interaction.customId.startsWith("npc-run")) {
+        streams.omniscient.write(">forcewin p2");
       }
+
+      await interaction.deferUpdate();
     } catch (error) {
       console.log(error);
     }

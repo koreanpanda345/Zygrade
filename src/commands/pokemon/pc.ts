@@ -38,7 +38,7 @@ export default class PCCommand extends BaseCommand {
 
       embed.setTitle(`PC`);
       embed.addFields({
-        name: `Level ${list[i].level} ${list[i].species}`,
+        name: `ID: ${i + 1} - Level ${list[i].level} ${list[i].species}`,
         value: `Ability: ${list[i].ability}`,
       });
 
