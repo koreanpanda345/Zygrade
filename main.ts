@@ -4,6 +4,8 @@ import { loadFiles } from "./src/utils/fs.ts";
 
 export const discordClient = new DiscordClient();
 
+console.log(Deno.env.get('TRAINER_PASSWORD'));
+
 await Promise.all(
   [
     "commands",
