@@ -8,12 +8,16 @@ export default class SwapCommand extends BaseCommand {
       data.addNumberOption((option) => {
         option.setName("swapper");
         option.setDescription("The pokemon that will be swapping.");
+        option.setMaxValue(6);
+        option.setMinValue(1);
         option.setRequired(true);
         return option;
       });
       data.addNumberOption((option) => {
         option.setName("swappe");
         option.setDescription("The pokemon to swap with");
+        option.setMaxValue(6);
+        option.setMinValue(1);
         option.setRequired(true);
         return option;
       });
