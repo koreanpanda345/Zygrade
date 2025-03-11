@@ -60,6 +60,7 @@ export default class NPCBattleProcess extends BaseProcess {
       });
     }
 
+    this.location = trainer.route;
     const team = await ClientCache.invokeProcess("pack-team", unparsedTeam);
 
     const p1spec = { name: interaction.user.username, team: team };
@@ -270,6 +271,8 @@ export default class NPCBattleProcess extends BaseProcess {
             embeds: [winEmbed],
             components: [],
           });
+
+          this.processQuests();
 
           ClientCache.battles.delete(interaction.user.id);
           return;

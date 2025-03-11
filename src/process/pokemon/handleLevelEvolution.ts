@@ -24,6 +24,8 @@ export default class HandleLevelEvolutionProcess extends BaseProcess {
 
     if (!dex.evos) return false;
 
+    if (dex.evos && dex.evos.length <= 0) return false;
+
     const nextEvoDex = Dex.species.get(dex.evos[0]);
 
     if (!nextEvoDex.exists) return false;

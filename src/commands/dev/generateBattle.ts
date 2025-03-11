@@ -17,7 +17,6 @@ export default class GenerateBattle extends BaseCommand {
       data.addStringOption((option) => {
         option.setName("pokemon");
         option.setDescription("Which pokemon would you like to generate!");
-        option.setRequired(true);
         return option;
       });
 
@@ -42,6 +41,11 @@ export default class GenerateBattle extends BaseCommand {
         interaction.options.get("pokemon")?.value!,
         interaction.options.get("level")?.value as number || 0,
       );
+    } else if (_type === "npc") {
+      await ClientCache.invokeProcess(
+        "npc-battle",
+        interaction
+      )
     }
   }
 }

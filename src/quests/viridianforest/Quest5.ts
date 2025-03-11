@@ -18,8 +18,11 @@ export default class KantoQuest5 extends BaseQuest {
         discordUserId: userid,
       });
 
+      console.log(userid, didWin, npc, location);
+      
       if(!trainer) return;
       if (!didWin) return;
+
       if (location !== "viridianforest") return;
       if (!npc.name.startsWith("Bug Catcher")) return;
 
