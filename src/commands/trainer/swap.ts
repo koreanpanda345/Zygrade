@@ -37,6 +37,8 @@ export default class SwapCommand extends BaseCommand {
     const swapper = interaction.options.get("swapper")?.value as number;
     const swappe = interaction.options.get("swappe")?.value as number;
 
+    if (swapper > 6 || swapper <= 0 || swappe > 6 || swappe <= 0) return await interaction.editReply({ content: `You can only select slots from 1 - 6`});
+    
     const temp = trainer.team[swappe - 1];
     trainer.team[swappe - 1] = trainer.team[swapper - 1];
     trainer.team[swapper - 1] = temp;
