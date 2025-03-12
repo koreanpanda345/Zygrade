@@ -11,6 +11,8 @@ export default class MoveCommand extends BaseCommand {
       data.addNumberOption((option) => {
         option.setName("slot");
         option.setDescription("The team slot to place the pokemon in");
+        option.setMaxValue(6);
+        option.setMinValue(1);
         option.setRequired(true);
         return option;
       });
@@ -41,7 +43,7 @@ export default class MoveCommand extends BaseCommand {
       });
       return;
     }
-
+    
     const pokemons = await Databases.PokemonCollection.find({
       discordUserId: interaction.user.id,
     });
