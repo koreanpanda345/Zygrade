@@ -66,7 +66,7 @@ export default class MoveCommand extends BaseCommand {
     await interaction.editReply(
       `Added Level ${arr[id].level} ${
         arr[id].species
-      } to your team in slot ${slot}`,
+      } to your team in slot ${slot + 1}`,
     );
   }
 }
