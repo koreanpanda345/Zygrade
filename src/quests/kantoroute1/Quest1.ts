@@ -13,7 +13,7 @@ export default class KantoQuest1 extends BaseQuest {
       "Catch at least 1 pokemon in the kanto route 1 area",
     );
     this.progress = [0, 1];
-    this.nextQuestId = 'kanto_quest_2';
+    this.nextQuestId = "kanto_quest_2";
   }
 
   override async invoke(

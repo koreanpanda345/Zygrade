@@ -2,7 +2,6 @@ import { CommandInteraction, EmbedBuilder } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import Databases from "../../databases/index.ts";
 import { Dex } from "@pkmn/dex";
-import logger from "../../utils/logger.ts";
 import { filledBar } from "string-progressbar";
 import ClientCache from "../../core/cache.ts";
 import { PokemonSchemaStats } from "../../databases/models/Trainer/Pokemon.ts";
@@ -98,8 +97,7 @@ export default class InfoCommand extends BaseCommand {
         embeds: [embed],
       });
     } catch (error) {
-      console.error(error);
-      logger.error(error);
+      this.logger.error(error);
     }
   }
 }

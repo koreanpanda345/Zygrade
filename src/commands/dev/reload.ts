@@ -11,21 +11,23 @@ export default class ReloadCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     try {
-      execSync('git pull', { cwd: "."});
-      console.log("Pulled Everything from Github");
+      execSync("git pull", { cwd: "." });
+      this.logger.info("Pulled Everything from Github");
 
-      ["commands", "events", "monitors", "process", "simulators", "quests"].map(async (
-        dir,
-      ) => await loadFiles(dir));
+      ["commands", "events", "monitors", "process", "simulators", "quests"].map(
+        async (
+          dir,
+        ) => await loadFiles(dir),
+      );
 
-      await ClientCache.invokeProcess('reload-command');
+      await ClientCache.invokeProcess("reload-command");
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       await interaction.editReply({
         content:
           // @ts-ignore

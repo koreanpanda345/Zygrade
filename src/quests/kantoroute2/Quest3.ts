@@ -14,7 +14,7 @@ export default class KantoQuest3 extends BaseQuest {
     );
 
     this.progress = [0, 5];
-    this.nextQuestId = 'kanto_quest_4';
+    this.nextQuestId = "kanto_quest_4";
   }
 
   override async invoke(

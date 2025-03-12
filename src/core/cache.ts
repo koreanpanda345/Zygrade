@@ -6,6 +6,8 @@ import BaseTask from "../base/BaseTask.ts";
 import BaseProcess from "../base/BaseProcess.ts";
 import BaseSimulator from "../base/BaseSimulator.ts";
 import BaseQuest from "../base/BaseQuest.ts";
+import { Logger } from "winston";
+import createLogger from "../utils/logger.ts";
 
 export default class ClientCache {
   public static commands: Collection<string, BaseCommand> = new Collection();
@@ -16,6 +18,7 @@ export default class ClientCache {
   public static process: Collection<string, BaseProcess> = new Collection();
   public static tasks: Collection<string, BaseTask> = new Collection();
   public static quests: Collection<string, BaseQuest> = new Collection();
+  public static logger: Logger = createLogger("core - cache");
 
   public static battles: Collection<string, Collection<string, any>> =
     new Collection();
@@ -29,7 +32,7 @@ export default class ClientCache {
     try {
       return await monitor.invoke(...args);
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return false;
     }
   }
@@ -41,7 +44,7 @@ export default class ClientCache {
     try {
       return await process.invoke(...args);
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return false;
     }
   }
@@ -53,18 +56,20 @@ export default class ClientCache {
     try {
       return await simulator.createBattle(user);
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return false;
     }
   }
 
   static async handleQuests(type: string, userid: string, ...args: any[]) {
-    console.log("success");
-    this.quests.forEach(async (quest) => {
-      console.log(quest);
-      if (quest.questType === type) {
-        await quest.invoke(userid, ...args);
-      }
-    });
+    try {
+      this.quests.forEach(async (quest) => {
+        if (quest.questType === type) {
+          await quest.invoke(userid, ...args);
+        }
+      });
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 }

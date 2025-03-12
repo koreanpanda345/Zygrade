@@ -22,7 +22,7 @@ export default class MessageCreateEvent extends BaseEvent {
     if (!trainer) return;
 
     const playerTeam: PokemonSchema[] = [];
-    console.log(trainer);
+
     for (const pokeid of trainer.team) {
       const pokemon = await Databases.PokemonCollection.findOne({
         _id: pokeid,
@@ -32,8 +32,6 @@ export default class MessageCreateEvent extends BaseEvent {
 
       playerTeam.push(pokemon);
     }
-
-    console.log(playerTeam);
 
     await ClientCache.invokeProcess(
       "handle-passive-exp",

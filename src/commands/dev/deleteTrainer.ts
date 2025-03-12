@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 
@@ -22,7 +22,7 @@ export default class DeleteTrainerCommand extends BaseCommand {
 
   override async invoke(interaction: CommandInteraction) {
     const user = interaction.options.get("user")?.user;
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const result = await ClientCache.invokeProcess("delete-trainer", user!.id);
 

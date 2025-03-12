@@ -38,7 +38,7 @@ export default class HandleCommandMonitor extends BaseMonitor {
     try {
       await command.invoke(interaction);
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
     }
   }
 }

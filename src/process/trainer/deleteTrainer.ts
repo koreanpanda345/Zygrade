@@ -14,7 +14,7 @@ export default class DeleteTrainerProcess extends BaseProcess {
     if (!trainer.acknowledged) {
       return false;
     } else {
-      console.log(
+      this.logger.info(
         `Deleted ${trainer.deletedCount} trainers with user id ${userId}`,
       );
     }
@@ -26,7 +26,7 @@ export default class DeleteTrainerProcess extends BaseProcess {
     if (!pokemon.acknowledged) {
       return false;
     } else {
-      console.log(
+      this.logger.info(
         `Deleted ${pokemon.deletedCount} pokemon with user id ${userId}`,
       );
     }

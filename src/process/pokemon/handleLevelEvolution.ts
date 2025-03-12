@@ -19,7 +19,7 @@ export default class HandleLevelEvolutionProcess extends BaseProcess {
     interaction: CommandInteraction | Message,
   ) {
     const dex = Dex.species.get(pokemon.species);
-    console.log(pokemon);
+
     if (!dex.exists) return false;
 
     if (!dex.evos) return false;

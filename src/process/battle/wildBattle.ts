@@ -224,7 +224,7 @@ export default class WildBattleProcess extends BaseProcess {
     }
 
     for await (const chunk of streams.omniscient) {
-      console.log(chunk);
+      this.logger.debug(chunk);
       for (const line of chunk.split("\n")) {
         const sections = line.split("|");
 
@@ -234,7 +234,7 @@ export default class WildBattleProcess extends BaseProcess {
           embed = this.createOrUpdateEmbed(embed, battle);
           buttons = this.createOrUpdateButtons(buttons, battle);
           rows = this.createOrUpdateActionRows(rows, buttons);
-          console.log(rows.get("switch_2"));
+
           if (rows.get("switch_2")?.components.length !== 0) {
             await interaction.editReply({
               embeds: [embed],
@@ -298,7 +298,6 @@ export default class WildBattleProcess extends BaseProcess {
             const lookForVolatiles = ["confusion"];
             if (!lookForVolatiles.includes(sections[3])) continue;
             const list = battle.get(`${path}:volatile`) as string[];
-            console.log(list);
             battle.set(
               `${path}:volatile`,
               list.filter((x) => x !== sections[3]),
@@ -516,7 +515,6 @@ export default class WildBattleProcess extends BaseProcess {
           : ButtonStyle.Danger,
       );
 
-      console.log(battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`));
       button.setDisabled(
         !(move.exists &&
           battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`) !== 0),
@@ -587,12 +585,10 @@ export default class WildBattleProcess extends BaseProcess {
 
       pokemonAmount += 1;
     }
-    console.log(switch1Row, switch2Row);
     rows.set("moves", moveRow);
     rows.set("switch_1", switch1Row);
     rows.set("switch_2", switch2Row);
     rows.set("options", optionsRow);
-    console.log(rows);
     return rows;
   }
 

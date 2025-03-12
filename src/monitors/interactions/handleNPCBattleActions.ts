@@ -28,8 +28,6 @@ export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
         p4: ObjectReadWriteStream<string>;
       } = battle.get("streams");
 
-      console.log(interaction);
-
       if (interaction.customId.startsWith("npc-move-")) {
         const move = interaction.customId.split("-")[2];
         streams.omniscient.write(`>p1 move ${move}`);
@@ -49,7 +47,7 @@ export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
 
       await interaction.deferUpdate();
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
     }
   }
 }

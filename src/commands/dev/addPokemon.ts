@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
@@ -158,7 +158,7 @@ export default class AddPokemonCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const user = interaction.options.get("user")?.user;
     const species = interaction.options.get("species");

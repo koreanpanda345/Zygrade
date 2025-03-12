@@ -44,8 +44,8 @@ export default class GenerateBattle extends BaseCommand {
     } else if (_type === "npc") {
       await ClientCache.invokeProcess(
         "npc-battle",
-        interaction
-      )
+        interaction,
+      );
     }
   }
 }

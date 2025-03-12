@@ -25,7 +25,7 @@ export default class AddPokemonProcess extends BaseProcess {
 
     trainer.team.push(_id.insertedId as ObjectId);
 
-    console.log(trainer.team);
+    this.logger.debug(trainer.team);
 
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,

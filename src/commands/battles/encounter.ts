@@ -8,10 +8,14 @@ export default class EncounterCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
-
-    if (ClientCache.battles.has(interaction.user.id)) return await interaction.reply({ content: 'You are already in an encounter. Please finished your current encounter before starting a new one.', flags: MessageFlags.Ephemeral });
+    if (ClientCache.battles.has(interaction.user.id)) {
+      return await interaction.reply({
+        content:
+          "You are already in an encounter. Please finished your current encounter before starting a new one.",
+        flags: MessageFlags.Ephemeral,
+      });
+    }
     const rng = Math.floor(Math.random() * 100);
-    console.log(rng);
     if (rng <= 70) { // 70%
       await ClientCache.invokeProcess("wild-battle", interaction);
     } else if (rng >= 70) { // 30%

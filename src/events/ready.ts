@@ -9,8 +9,8 @@ export default class ReadyEvent extends BaseEvent {
   }
 
   public override async invoke() {
-    console.log(`Ready!`);
+    this.logger.info(`Ready!`);
 
-    await ClientCache.invokeProcess('reload-command');
+    await ClientCache.invokeProcess("reload-command");
   }
 }

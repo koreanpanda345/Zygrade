@@ -228,7 +228,7 @@ export default class NPCBattleProcess extends BaseProcess {
     }
 
     for await (const chunk of streams.omniscient) {
-      console.log(chunk);
+      this.logger.debug(chunk);
       for (const line of chunk.split("\n")) {
         const sections = line.split("|");
 
@@ -536,8 +536,6 @@ export default class NPCBattleProcess extends BaseProcess {
           ? ButtonStyle.Primary
           : ButtonStyle.Danger,
       );
-
-      console.log(battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`));
       button.setDisabled(
         !(move.exists &&
           battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`) !== 0),

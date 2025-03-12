@@ -1,4 +1,6 @@
+import { Logger } from "winston";
 import Databases from "../databases/index.ts";
+import createLogger from "../utils/logger.ts";
 
 export default abstract class BaseQuest {
   name: string;
@@ -7,6 +9,7 @@ export default abstract class BaseQuest {
   description: string;
   progress: [number, number] = [0, 1];
   nextQuestId: string = "";
+  logger: Logger;
   constructor(
     name: string,
     questId: string,
@@ -17,6 +20,7 @@ export default abstract class BaseQuest {
     this.description = description;
     this.questId = questId;
     this.questType = questType;
+    this.logger = createLogger(`quest - ${this.name}`);
   }
 
   async invoke(...args: any[]): Promise<any> {

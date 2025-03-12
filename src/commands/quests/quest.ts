@@ -22,8 +22,6 @@ export default class QuestCommand extends BaseCommand {
       return;
     }
 
-    console.log(trainer.quests);
-
     const quests = trainer.quests;
     const embed = new EmbedBuilder();
     embed.setTitle(`${interaction.user.username}'s Quests`);

@@ -48,7 +48,7 @@ export default class HandleWildBattleActionsMonitor extends BaseMonitor {
         await interaction.deferUpdate();
       }
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
     }
   }
 }

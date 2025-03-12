@@ -1,5 +1,7 @@
 import ClientCache from "../core/cache.ts";
+import createLogger from "./logger.ts";
 
+const logger = createLogger("fs.ts");
 let uniqueFilePathCounter = 0;
 export async function loadFiles(dir: string) {
   const foldersPath = `./src/${dir}`;
@@ -9,7 +11,7 @@ export async function loadFiles(dir: string) {
     if (folder.isFile && folder.name.endsWith(".ts")) { // we are assuming that it is an event file
       const filePath = `${foldersPath}/${folder.name}#${uniqueFilePathCounter}`
         .replace("src/", "../");
-      console.log(`Loading ${filePath}`);
+      logger.debug(`Loading ${filePath}`);
       const { default: file } = await import(`${filePath}`);
       const _file = new file();
       switch (dir) {
@@ -28,7 +30,7 @@ export async function loadFiles(dir: string) {
       for (const dirFile of dirFiles) {
         const filePath = `${filesPath}/${dirFile.name}#${uniqueFilePathCounter}`
           .replace("src/", "../");
-        console.log(`Loading ${filePath}`);
+        logger.debug(`Loading ${filePath}`);
         const { default: file } = await import(`${filePath}`);
         const _file = new file();
 
@@ -54,35 +56,3 @@ export async function loadFiles(dir: string) {
     uniqueFilePathCounter++;
   }
 }
-
-// let uniqueFilePathCounter = 0;
-// let paths: string[] = [];
-
-// export async function importDirectories(path: string) {
-// 	const files = Deno.readDirSync(Deno.realPathSync(path));
-// 	const folder = path.substring(path.indexOf("/src/") + 5);
-// 	if (!folder.includes("/")) console.log(`Loading ${folder}...`);
-
-// 	for (const file of files) {
-// 		if (!file.name) continue;
-
-// 		const currentPath = `${path}/${file.name}`.replace("\\", "/");
-// 		if (file.isFile) {
-// 			if (!currentPath.endsWith(".ts")) continue;
-// 			paths.push(`import "${Deno.mainModule.substring(0, Deno.mainModule.lastIndexOf("/"))}/${currentPath.substring(currentPath.indexOf("src/"))}#${uniqueFilePathCounter}";`);
-// 			continue;
-// 		}
-
-// 		await importDirectories(currentPath);
-// 	}
-
-// 	uniqueFilePathCounter++;
-// }
-
-// export async function fileLoader() {
-// 	await Deno.writeTextFile("fileloader.ts", paths.join("\n").replace("\\", "/"));
-// 	await import (`${
-// 		Deno.mainModule.substring(0, Deno.mainModule.lastIndexOf("/"))
-// 	}/fileloader.ts#${uniqueFilePathCounter}`);
-// 	paths = [];
-// }
