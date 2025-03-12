@@ -9,6 +9,7 @@ import {
   Message,
   TextChannel,
 } from "discord.js";
+import { UserSettingsSchema } from "../../databases/models/Trainer/UserSettings.ts";
 
 export default class HandleLevelsAndExpProcess extends BaseProcess {
   constructor() {
@@ -53,6 +54,14 @@ export default class HandleLevelsAndExpProcess extends BaseProcess {
         `https://play.pokemonshowdown.com/sprites/ani/${pokemon.species}.gif`,
       );
       embed.setColor("Green");
+
+      const settings = await ClientCache.invokeProcess(
+        "get-or-create-user-settings",
+        pokemon.discordUserId,
+      ) as UserSettingsSchema;
+
+      if (!settings.displayLevelUpMessage) return;
+
       if (interaction instanceof Message) {
         await (interaction.channel as TextChannel).send({ embeds: [embed] });
       } else await interaction.followUp({ embeds: [embed] });

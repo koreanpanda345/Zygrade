@@ -83,23 +83,33 @@ export default class GetLogCommand extends BaseCommand {
 
     try {
       const decoder = new TextDecoder("utf-8");
-      const file = Deno.readFileSync(`./logs/${year}/${month}/${day}/${logType}.log`);
+      const file = Deno.readFileSync(
+        `./logs/${year}/${month}/${day}/${logType}.log`,
+      );
 
       const log = decoder.decode(file);
-    
-      const lines = log.split("\r\n").reverse()
+
+      const lines = log.split("\r\n").reverse();
       const embed = new EmbedBuilder();
       embed.setTitle(`${logType} logs`);
       embed.setTimestamp(new Date(year, month, day));
       embed.setColor("Random");
 
       for (let i = 0; i < (lines.length < 20 ? lines.length : 20); i++) {
-        if (lines[i].split("\t↳")[0] === undefined || lines[i].split("\t↳")[1] === undefined) continue;
-        embed.addFields({ name: `${lines[i].split("\t↳")[0]}`, value: `${lines[i].split("\t↳")[1]}`})
+        if (
+          lines[i].split("\t↳")[0] === undefined ||
+          lines[i].split("\t↳")[1] === undefined
+        ) continue;
+        embed.addFields({
+          name: `${lines[i].split("\t↳")[0]}`,
+          value: `${lines[i].split("\t↳")[1]}`,
+        });
       }
 
-      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
-
+      await interaction.reply({
+        embeds: [embed],
+        flags: MessageFlags.Ephemeral,
+      });
     } catch (error) {
       this.logger.error(error);
     }
