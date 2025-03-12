@@ -17,7 +17,7 @@ export default class ReloadCommand extends BaseCommand {
       execSync("git pull", { cwd: "." });
       this.logger.info("Pulled Everything from Github");
 
-      ["commands", "events", "monitors", "process", "simulators", "quests"].map(
+      ["commands", "events", "monitors", "process", "quests"].map(
         async (
           dir,
         ) => await loadFiles(dir),

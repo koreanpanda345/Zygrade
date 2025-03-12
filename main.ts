@@ -9,7 +9,6 @@ await Promise.all(
     "events",
     "monitors",
     "process",
-    "simulators",
     "quests",
   ].map(async (dir) => await loadFiles(dir)),
 );
