@@ -21,6 +21,7 @@ export default class EncounterCommand extends BaseCommand {
       "check-trainer-and-route",
       interaction.user.id,
     ) as false | { trainer: TrainerSchema; route: RouteSchema };
+    this.logger.debug(`${interaction.user.id} - ${result}`);
     if (!result) {
       await interaction.reply("Something happened");
       return;

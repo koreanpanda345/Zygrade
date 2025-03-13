@@ -44,6 +44,7 @@ export default function createLogger(name: string) {
           `logs/${date.getFullYear()}/${date.getMonth()}/${date.getDate()}/full.log`,
       }),
       new transports.Console({
+        level: "debug",
         format: combine(label({ label: name }), timestamp(), consoleFormat),
       }),
     ],
