@@ -68,13 +68,7 @@ export default class HandleLevelsAndExpProcess extends BaseProcess {
       } else await interaction.followUp({ embeds: [embed] });
     }
 
-    await Databases.PokemonCollection.updateOne({ _id: pokemon._id }, {
-      $set: {
-        level: pokemon.level,
-        exp: pokemon.exp!,
-        neededExp: pokemon.neededExp!,
-      },
-    });
+    await ClientCache.invokeProcess("update-pokemon", pokemon);
 
     await ClientCache.invokeProcess(
       "handle-level-evolution",

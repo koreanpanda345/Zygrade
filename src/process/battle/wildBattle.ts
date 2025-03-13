@@ -76,7 +76,7 @@ export default class WildBattleProcess extends BaseProcess {
       : await ClientCache.invokeProcess(
         "get-random-pokemon",
         trainer!.route,
-        interaction.user.id
+        interaction.user.id,
       );
     const wildLevel = encounteredLevel !== 0
       ? encounteredLevel
@@ -84,23 +84,14 @@ export default class WildBattleProcess extends BaseProcess {
         "get-random-level",
         trainer!.route,
         wildName,
-        interaction.user.id
+        interaction.user.id,
       );
 
-    const wildPokemon: PokemonSchema = {
-      species: wildName,
-      shiny: false,
-      level: wildLevel,
-      ivs: await ClientCache.invokeProcess("get-random-ivs"),
-      moves: await ClientCache.invokeProcess(
-        "get-random-moves",
-        wildName,
-        wildLevel,
-      ) as string[],
-      ability: Dex.species.get(wildName)
-        .abilities[`${Math.floor(Math.random()) as 0 | 1}`]!,
-      nature: (await ClientCache.invokeProcess("get-random-nature")).name,
-    };
+    const wildPokemon = await ClientCache.invokeProcess(
+      "generate-wild-pokemon",
+      wildName,
+      wildLevel,
+    );
 
     this.wildPokemon = wildPokemon;
     this.location = trainer!.route;
@@ -621,10 +612,6 @@ export default class WildBattleProcess extends BaseProcess {
     embed.setFooter({ text: "Please pick an option down below!" });
     embed.setColor("Green");
 
-    const pokemonData = await new PokemonClient().getPokemonByName(
-      this.wildPokemon!.species,
-    );
-
     await ClientCache.invokeProcess(
       "handle-battl-exp",
       this.battle.get("p1:team"),
@@ -690,25 +677,22 @@ export default class WildBattleProcess extends BaseProcess {
           this.wildPokemon!.level,
         );
 
-        const pokemon: PokemonSchema = {
-          discordUserId: this.interaction!.user.id,
-          species: this.wildPokemon!.species,
-          level: this.wildPokemon!.level,
-          exp: 0,
-          neededExp,
-          ivs: this.wildPokemon!.ivs,
-          evs: this.wildPokemon!.evs ||
-            { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
-          nature: this.wildPokemon!.nature,
-          moves: this.wildPokemon!.moves,
-          shiny: this.wildPokemon!.shiny,
-          ability: this.wildPokemon!.ability,
+        this.wildPokemon!.discordUserId = this.userId;
+        this.wildPokemon!.exp = 0;
+        this.wildPokemon!.neededExp = neededExp;
+        this.wildPokemon!.evs = {
+          hp: 0,
+          atk: 0,
+          def: 0,
+          spa: 0,
+          spd: 0,
+          spe: 0,
         };
 
-        await ClientCache.invokeProcess("add-pokemon", pokemon);
+        await ClientCache.invokeProcess("add-pokemon", this.wildPokemon);
 
         embed.setTitle(
-          `Successfully Caught a Level ${pokemon.level} ${
+          `Successfully Caught a Level ${this.wildPokemon!.level} ${
             Dex.species.get(this.wildPokemon!.species!).name
           }!`,
         );

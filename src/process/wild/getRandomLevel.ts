@@ -16,14 +16,29 @@ export default class GetRandomLevelProcess extends BaseProcess {
 
     if (!route) return false;
 
-    const trainer = await ClientCache.invokeProcess('get-trainer', userid) as TrainerSchema;
+    const trainer = await ClientCache.invokeProcess(
+      "get-trainer",
+      userid,
+    ) as TrainerSchema;
 
-    const index = route.encounters.findIndex((s) => s.requiredQuestId && trainer.quests.some((q) => q.questid === s.requiredQuestId && q.completed));
+    const index = route.encounters.findIndex((s) =>
+      s.requiredQuestId &&
+      trainer.quests.some((q) => q.questid === s.requiredQuestId && q.completed)
+    );
 
     if (index === -1) {
-      return Math.floor(Math.random() * (route.encounters[0].levels[1] - route.encounters[0].levels[0]) + route.encounters[0].levels[0]);
+      return Math.floor(
+        Math.random() *
+            (route.encounters[0].levels[1] - route.encounters[0].levels[0]) +
+          route.encounters[0].levels[0],
+      );
     } else {
-      return Math.floor(Math.random() * (route.encounters[index].levels[1] - route.encounters[index].levels[0]) + route.encounters[index].levels[0]);
+      return Math.floor(
+        Math.random() *
+            (route.encounters[index].levels[1] -
+              route.encounters[index].levels[0]) +
+          route.encounters[index].levels[0],
+      );
     }
   }
 }

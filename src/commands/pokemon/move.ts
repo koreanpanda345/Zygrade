@@ -43,7 +43,7 @@ export default class MoveCommand extends BaseCommand {
       });
       return;
     }
-    
+
     const pokemons = await Databases.PokemonCollection.find({
       discordUserId: interaction.user.id,
     });
@@ -64,9 +64,9 @@ export default class MoveCommand extends BaseCommand {
     }, { $set: { team: trainer.team } });
 
     await interaction.editReply(
-      `Added Level ${arr[id].level} ${
-        arr[id].species
-      } to your team in slot ${slot + 1}`,
+      `Added Level ${arr[id].level} ${arr[id].species} to your team in slot ${
+        slot + 1
+      }`,
     );
   }
 }

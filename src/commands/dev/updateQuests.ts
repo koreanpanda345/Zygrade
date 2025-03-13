@@ -16,10 +16,9 @@ export default class UpdateQuestCommand extends BaseCommand {
   override async invoke(interaction: CommandInteraction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-    const trainers = Databases.TrainerCollection.find();
-    const trainersArr = await trainers.toArray();
+    const trainers = await ClientCache.invokeProcess("get-all-trainers");
 
-    for (const trainer of trainersArr) {
+    for (const trainer of trainers) {
       const trainerQuests = trainer.quests;
 
       for (const trainerQuest of trainerQuests) {
@@ -27,7 +26,9 @@ export default class UpdateQuestCommand extends BaseCommand {
           const quest = ClientCache.quests.get(trainerQuest.questid);
           if (!quest) continue;
           if (quest?.nextQuestId === "") continue;
-          if (trainerQuests.find((x) => x.questid === quest?.nextQuestId)) {
+          if (
+            trainerQuests.find((x: any) => x.questid === quest?.nextQuestId)
+          ) {
             continue;
           }
           const nextQuest = ClientCache.quests.get(quest?.nextQuestId!);
@@ -47,9 +48,7 @@ export default class UpdateQuestCommand extends BaseCommand {
         }
       }
 
-      await Databases.TrainerCollection.updateOne({
-        discordUserId: trainer.discordUserId,
-      }, { $set: { quests: trainer.quests } });
+      await ClientCache.invokeProcess("update-trainer", trainer);
 
       this.logger.info(`Updated Quests for ${trainer.discordUserId}`);
     }

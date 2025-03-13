@@ -56,9 +56,7 @@ export default class KantoQuest1 extends BaseQuest {
       completed: false,
     });
 
-    await Databases.TrainerCollection.updateOne({
-      discordUserId: trainer.discordUserId,
-    }, { $set: { money: trainer.money, quests: trainer.quests } });
+    await ClientCache.invokeProcess("update-trainer", trainer);
     return "You received 600 coins! For Catching 5 pokemon total in the Savanna Area.";
   }
 }

@@ -15,7 +15,10 @@ export default class GetRandomPokemonProcess extends BaseProcess {
     );
     if (!route) return false;
 
-    const trainer = await ClientCache.invokeProcess('get-trainer', userid) as TrainerSchema;
+    const trainer = await ClientCache.invokeProcess(
+      "get-trainer",
+      userid,
+    ) as TrainerSchema;
 
     if (!trainer) return false;
 
@@ -24,33 +27,38 @@ export default class GetRandomPokemonProcess extends BaseProcess {
     const wheel = [];
 
     for (const encounter of encounters) {
-      if (encounter.requiredQuestId && !trainer.quests.some((x) => x.questid === encounter.requiredQuestId && x.completed === true)) continue;
+      if (
+        encounter.requiredQuestId &&
+        !trainer.quests.some((x) =>
+          x.questid === encounter.requiredQuestId && x.completed === true
+        )
+      ) continue;
       for (const pool of encounter.encounters) {
         switch (pool.rarity) {
           case 0: // Very Common
-          for (let i = 7; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 1: // Common
-          for (let i = 6; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 2: // Uncommon
-          for (let i = 5; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 3: // Rare
-          for (let i = 4; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 4: // Very Rare
-          for (let i = 3; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 5:
-          for (let i = 2; i > 0; i--) wheel.push(pool.species);
-          break;
-        case 6: // Mythical
-        case 7: // Legendary
-          for (let i = 1; i > 0; i--) wheel.push(pool.species);
-          break;
-        default:
-          for (let i = 1; i > 0; i--) wheel.push(pool.species);
+            for (let i = 7; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 1: // Common
+            for (let i = 6; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 2: // Uncommon
+            for (let i = 5; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 3: // Rare
+            for (let i = 4; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 4: // Very Rare
+            for (let i = 3; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 5:
+            for (let i = 2; i > 0; i--) wheel.push(pool.species);
+            break;
+          case 6: // Mythical
+          case 7: // Legendary
+            for (let i = 1; i > 0; i--) wheel.push(pool.species);
+            break;
+          default:
+            for (let i = 1; i > 0; i--) wheel.push(pool.species);
         }
       }
     }

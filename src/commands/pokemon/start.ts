@@ -26,10 +26,13 @@ export default class StartCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
-    const trainer = await ClientCache.invokeProcess('get-trainer', interaction.user.id);
+    const trainer = await ClientCache.invokeProcess(
+      "get-trainer",
+      interaction.user.id,
+    );
 
-    if(trainer) return;
-    
+    if (trainer) return;
+
     const starterPokemon = [
       ["Gen 1", "bulbasaur", "charmander", "squirtle"],
       ["Gen 2", "chikorita", "cyndaquil", "totodile"],
@@ -223,6 +226,7 @@ export default class StartCommand extends BaseCommand {
       });
     } catch (error) {
       this.logger.error(error);
+      await ClientCache.invokeMonitor("handle-error", error);
     }
   }
 }

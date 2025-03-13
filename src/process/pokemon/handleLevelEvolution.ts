@@ -8,6 +8,7 @@ import BaseProcess from "../../base/BaseProcess.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
 import { Dex } from "@pkmn/dex";
 import Databases from "../../databases/index.ts";
+import ClientCache from "../../core/cache.ts";
 
 export default class HandleLevelEvolutionProcess extends BaseProcess {
   constructor() {
@@ -45,9 +46,7 @@ export default class HandleLevelEvolutionProcess extends BaseProcess {
       pokemon.ability = nextEvoDex.abilities["H"]!;
     }
 
-    await Databases.PokemonCollection.updateOne({
-      _id: pokemon._id,
-    }, { $set: { species: pokemon.species, ability: pokemon.ability } });
+    await ClientCache.invokeProcess("update-pokemon", pokemon);
 
     const embed = new EmbedBuilder();
 

@@ -28,11 +28,7 @@ export default class ReloadCommand extends BaseCommand {
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
       this.logger.error(error);
-      await interaction.editReply({
-        content:
-          // @ts-ignore
-          `There was an error while reloading the bot:\n\`${error.message}\``,
-      });
+      await ClientCache.invokeMonitor("handle-error", error);
     }
   }
 }

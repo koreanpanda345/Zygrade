@@ -17,17 +17,21 @@ export default class EncounterCommand extends BaseCommand {
         flags: MessageFlags.Ephemeral,
       });
     }
+    const result = await ClientCache.invokeProcess(
+      "check-trainer-and-route",
+      interaction.user.id,
+    ) as false | { trainer: TrainerSchema; route: RouteSchema };
+    if (!result) {
+      await interaction.reply("Something happened");
+      return;
+    }
 
-    const trainer = await ClientCache.invokeProcess('get-trainer', interaction.user.id) as TrainerSchema;
+    const route = result.route;
 
-    if (!trainer) return await interaction.reply("Could not find any data for you.");
+    if (route.trainers.length === 0) {
+      return await ClientCache.invokeProcess("wild-battle", interaction);
+    }
 
-    const route = await ClientCache.invokeProcess('get-route', trainer.route) as RouteSchema;
-
-    if (!route) return await interaction.reply('Could not find your current route');
-
-    if (route.trainers.length === 0) return await ClientCache.invokeProcess('wild-battle', interaction);
-    
     const rng = Math.floor(Math.random() * 100);
     if (rng <= 70) { // 70%
       await ClientCache.invokeProcess("wild-battle", interaction);
