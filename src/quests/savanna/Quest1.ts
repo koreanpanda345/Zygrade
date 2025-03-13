@@ -8,12 +8,12 @@ export default class KantoQuest1 extends BaseQuest {
   constructor() {
     super(
       "Catch 1 Pokemon",
-      "kanto_quest_1",
+      "savanna_quest_1",
       "catch",
-      "Catch at least 1 pokemon in the kanto route 1 area",
+      "Catch at least 1 pokemon in the savanna area",
     );
     this.progress = [0, 1];
-    this.nextQuestId = "kanto_quest_2";
+    this.nextQuestId = "savanna_quest_2";
   }
 
   override async invoke(
@@ -31,7 +31,7 @@ export default class KantoQuest1 extends BaseQuest {
 
     if (!didCatch) return;
 
-    if (location !== "kantoroute1") return;
+    if (location !== "savanna") return;
 
     const canGetReward = await this.updateProgress(userid, 1) as boolean;
 
@@ -51,7 +51,7 @@ export default class KantoQuest1 extends BaseQuest {
     trainer.money += 300;
 
     trainer.quests.push({
-      questid: "kanto_quest_2",
+      questid: "savanna_quest_2",
       progress: [0, 2],
       completed: false,
     });
@@ -59,6 +59,6 @@ export default class KantoQuest1 extends BaseQuest {
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
     }, { $set: { money: trainer.money, quests: trainer.quests } });
-    return "You received 300 coins! For Catching 1 pokemon total in Kanto Route 1";
+    return "You received 300 coins! For Catching 1 pokemon total in the Savanna Area.";
   }
 }

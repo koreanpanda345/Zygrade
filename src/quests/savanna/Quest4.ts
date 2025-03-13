@@ -4,16 +4,16 @@ import Databases from "../../databases/index.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
 import ClientCache from "../../core/cache.ts";
 
-export default class KantoQuest4 extends BaseQuest {
+export default class KantoQuest1 extends BaseQuest {
   constructor() {
     super(
       "Catch 10 Pokemon",
-      "kanto_quest_4",
+      "savanna_quest_4",
       "catch",
-      "Catch at least 10 pokemon in the kanto route 2 area",
+      "Catch at least 10 pokemon in the savanna area",
     );
     this.progress = [0, 10];
-    this.nextQuestId = "kanto_quest_4";
+    this.nextQuestId = "savanna_quest_5";
   }
 
   override async invoke(
@@ -31,7 +31,7 @@ export default class KantoQuest4 extends BaseQuest {
 
     if (!didCatch) return;
 
-    if (location !== "kantoroute2") return;
+    if (location !== "savanna") return;
 
     const canGetReward = await this.updateProgress(userid, 1) as boolean;
 
@@ -48,24 +48,17 @@ export default class KantoQuest4 extends BaseQuest {
 
     if (!trainer) return;
 
-    trainer.money += 1000;
-    trainer.allowedRoutes.push("viridianforest");
+    trainer.money += 300;
 
     trainer.quests.push({
-      questid: "kanto_quest_5",
-      progress: [0, 3],
+      questid: "savanna_quest_5",
+      progress: [0, 20],
       completed: false,
     });
 
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
-    }, {
-      $set: {
-        money: trainer.money,
-        quests: trainer.quests,
-        allowedRoutes: trainer.allowedRoutes,
-      },
-    });
-    return "You received 1000 coins! For Catching 5 pokemon total in Kanto Route 2. You are now able to travel to `Viridian Forest`. Use the `/goto` command to travel there.";
+    }, { $set: { money: trainer.money, quests: trainer.quests } });
+    return "You received 1000 coins! For Catching 10 pokemon total in the Savanna Area.";
   }
 }

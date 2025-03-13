@@ -9,12 +9,12 @@ export default class KantoQuest2 extends BaseQuest {
   constructor() {
     super(
       "Catch 2 Pokemon",
-      "kanto_quest_2",
+      "savanna_quest_2",
       "catch",
-      "Catch at least 2 pokemon in the kanto route 2 area.",
+      "Catch at least 2 pokemon in the savanna area.",
     );
     this.progress = [0, 2];
-    this.nextQuestId = "kanto_quest_3";
+    this.nextQuestId = "savanna_quest_3";
   }
 
   override async invoke(
@@ -31,7 +31,7 @@ export default class KantoQuest2 extends BaseQuest {
 
     if (!trainer) return;
     if (!didCatch) return;
-    if (location !== "kantoroute1") return;
+    if (location !== "savanna") return;
 
     const canGetReward = await this.updateProgress(userid, 1) as boolean;
 
@@ -52,7 +52,7 @@ export default class KantoQuest2 extends BaseQuest {
     trainer.money += 300;
     trainer.allowedRoutes.push("kantoroute2");
     trainer.quests.push({
-      questid: "kanto_quest_3",
+      questid: "savanna_quest_3",
       progress: [0, 5],
       completed: false,
     });
@@ -65,6 +65,6 @@ export default class KantoQuest2 extends BaseQuest {
         quests: trainer.quests,
       },
     });
-    return "You received 300 coins! For Catching 2 pokemon total in Kanto Route 1. You are now able to travel to `Kanto Route 2`. Use the `/goto` command to travel there.";
+    return "You received 300 coins! For Catching 2 pokemon total in The Savanna Area.";
   }
 }

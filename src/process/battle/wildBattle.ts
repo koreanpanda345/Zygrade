@@ -76,6 +76,7 @@ export default class WildBattleProcess extends BaseProcess {
       : await ClientCache.invokeProcess(
         "get-random-pokemon",
         trainer!.route,
+        interaction.user.id
       );
     const wildLevel = encounteredLevel !== 0
       ? encounteredLevel
@@ -83,6 +84,7 @@ export default class WildBattleProcess extends BaseProcess {
         "get-random-level",
         trainer!.route,
         wildName,
+        interaction.user.id
       );
 
     const wildPokemon: PokemonSchema = {

@@ -25,11 +25,13 @@ export default class UpdateQuestCommand extends BaseCommand {
       for (const trainerQuest of trainerQuests) {
         if (trainerQuest.completed) {
           const quest = ClientCache.quests.get(trainerQuest.questid);
+          if (!quest) continue;
           if (quest?.nextQuestId === "") continue;
           if (trainerQuests.find((x) => x.questid === quest?.nextQuestId)) {
             continue;
           }
           const nextQuest = ClientCache.quests.get(quest?.nextQuestId!);
+          if (!nextQuest) continue;
           trainer.quests.push({
             questid: nextQuest!.questId,
             progress: nextQuest!.progress,
@@ -39,7 +41,7 @@ export default class UpdateQuestCommand extends BaseCommand {
         }
 
         const quest = ClientCache.quests.get(trainerQuest.questid);
-
+        if (!quest) continue;
         if (trainerQuest.progress[1] !== quest!.progress[1]) {
           trainerQuest.progress[1] = quest!.progress[1];
         }

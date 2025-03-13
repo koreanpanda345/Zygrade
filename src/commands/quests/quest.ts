@@ -29,6 +29,8 @@ export default class QuestCommand extends BaseCommand {
     for (const quest of quests) {
       if (quest.completed) continue;
       const questData = ClientCache.quests.get(quest.questid);
+
+      if (!questData) continue;
       embed.addFields({
         name: `${questData!.name}`,
         value: `${questData?.description}\nProgress: [${quest.progress[0]}/${

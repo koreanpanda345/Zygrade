@@ -1,14 +1,20 @@
 export interface RouteSchema {
   name: string;
   routeid: string;
-  encounters: RouteSchemaEncounter[];
+  encounters: RouteSchemaEncounters[];
   trainers: RouteSchemaTrainers[];
   items: string[];
 }
 
+interface RouteSchemaEncounters {
+  levels: number[];
+  requiredQuestId?: string;
+  encounters: RouteSchemaEncounter[];
+}
+
 interface RouteSchemaEncounter {
   species: string;
-  levels: number[];
+  alwaysShiny?: boolean;
   rarity: number;
 }
 
