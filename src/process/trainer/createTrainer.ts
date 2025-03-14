@@ -20,11 +20,11 @@ export default class CreateTrainerProcess extends BaseProcess {
       team: [pokemonId],
       inventory: [],
       money: 200,
-      route: "kantoroute1",
-      allowedRoutes: ["kantoroute1"],
+      route: "savanna",
+      allowedRoutes: ["savanna"],
       quests: [
         {
-          questid: "kanto_quest_1",
+          questid: "savanna_quest_1",
           progress: [0, 1],
           completed: false,
         },
