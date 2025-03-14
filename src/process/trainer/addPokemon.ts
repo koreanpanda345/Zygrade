@@ -27,9 +27,7 @@ export default class AddPokemonProcess extends BaseProcess {
 
     this.logger.debug(trainer.team);
 
-    await Databases.TrainerCollection.updateOne({
-      discordUserId: trainer.discordUserId,
-    }, { $set: { team: trainer.team } });
+    await ClientCache.invokeProcess('update-trainer', trainer);
 
     return true;
   }

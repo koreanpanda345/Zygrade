@@ -13,31 +13,32 @@ export default class MessageCreateEvent extends BaseEvent {
   public override async invoke(message: Message) {
     if (message.author.bot) return;
     if (message.channel.type === ChannelType.DM) return;
+    // Disabled due to it making the bot be sluggish.
 
-    const trainer = await ClientCache.invokeProcess(
-      "get-trainer",
-      message.author.id,
-    ) as TrainerSchema;
+    // const trainer = await ClientCache.invokeProcess(
+    //   "get-trainer",
+    //   message.author.id,
+    // ) as TrainerSchema;
 
-    if (!trainer) return;
+    // if (!trainer) return;
 
-    const playerTeam: PokemonSchema[] = [];
+    // const playerTeam: PokemonSchema[] = [];
 
-    for (const pokeid of trainer.team) {
-      const pokemon = await Databases.PokemonCollection.findOne({
-        _id: pokeid,
-      });
+    // for (const pokeid of trainer.team) {
+    //   const pokemon = await Databases.PokemonCollection.findOne({
+    //     _id: pokeid,
+    //   });
 
-      if (!pokemon) continue;
+    //   if (!pokemon) continue;
 
-      playerTeam.push(pokemon);
-    }
+    //   playerTeam.push(pokemon);
+    // }
 
-    await ClientCache.invokeProcess(
-      "handle-passive-exp",
-      playerTeam,
-      1,
-      message,
-    );
+    // await ClientCache.invokeProcess(
+    //   "handle-passive-exp",
+    //   playerTeam,
+    //   1,
+    //   message,
+    // );
   }
 }

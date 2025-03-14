@@ -10,6 +10,7 @@ export default class EncounterCommand extends BaseCommand {
   }
 
   override async invoke(interaction: CommandInteraction) {
+    await interaction.deferReply();
     if (ClientCache.battles.has(interaction.user.id)) {
       return await interaction.reply({
         content:
@@ -23,7 +24,7 @@ export default class EncounterCommand extends BaseCommand {
     ) as false | { trainer: TrainerSchema; route: RouteSchema };
     this.logger.debug(`${interaction.user.id} - ${result}`);
     if (!result) {
-      await interaction.reply("Something happened");
+      await interaction.editReply("Something happened");
       return;
     }
 

@@ -43,10 +43,12 @@ export default class InfoCommand extends BaseCommand {
       const embed = new EmbedBuilder();
 
       embed.setTitle(
-        `${interaction.user.username}'s Level ${pokemon.level} ${species.name}`,
+        `${interaction.user.username}'s Level ${pokemon.level} ${species.name} ${pokemon.shiny ? '🌟' : ''}`,
       );
+
+      const sprite = await ClientCache.invokeProcess('get-sprite', species.id, pokemon.shiny, false);
       embed.setImage(
-        `https://play.pokemonshowdown.com/sprites/dex/${species.id}.png`,
+        sprite
       );
       const neededExp = pokemon.neededExp;
       const [bar, percent] = filledBar(neededExp!, pokemon.exp!);

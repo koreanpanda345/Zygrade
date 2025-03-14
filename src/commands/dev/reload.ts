@@ -21,14 +21,16 @@ export default class ReloadCommand extends BaseCommand {
         async (
           dir,
         ) => await loadFiles(dir),
-      );
+      )
 
-      await ClientCache.invokeProcess("reload-command");
+
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
       this.logger.error(error);
       await ClientCache.invokeMonitor("handle-error", error);
+    } finally {
+      await ClientCache.invokeProcess("reload-command");
     }
   }
 }

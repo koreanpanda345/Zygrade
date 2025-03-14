@@ -17,7 +17,7 @@ export default class GenearteWildPokemon extends BaseProcess {
     const pokemon: PokemonSchema = {
       species,
       level,
-      shiny,
+      shiny: await ClientCache.invokeProcess("is-shiny", shiny),
       ivs: await ClientCache.invokeProcess("get-random-ivs"),
       moves: await ClientCache.invokeProcess(
         "get-random-moves",

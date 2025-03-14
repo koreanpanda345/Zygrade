@@ -12,7 +12,7 @@ export default class HandleGrowthRateProcess extends BaseProcess {
     else if (rate === "medium") return this.mediumFast(level);
     else if (rate === "medium-slow") return this.mediumSlow(level);
     else if (rate === "slow") return this.slow(level);
-    else if (rate === "fluctuating") return this.fluctuating(level);
+    else if (rate === "fluctuating" || rate === "fast-then-very-slow") return this.fluctuating(level);
     return 0;
   }
 

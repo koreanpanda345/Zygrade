@@ -196,15 +196,22 @@ export default class NPCBattleProcess extends BaseProcess {
 
     ClientCache.battles.set(interaction.user.id, battle);
 
-    let embed = this.createOrUpdateEmbed(new EmbedBuilder(), battle);
-    let buttons = this.createOrUpdateButtons(
-      new Collection<string, ButtonBuilder[]>(),
-      battle,
-    );
-    let rows = this.createOrUpdateActionRows(
-      new Collection<string, ActionRowBuilder<ButtonBuilder>>(),
+    let embed = new EmbedBuilder();
+    let buttons = new Collection<string, ButtonBuilder[]>();
+    let rows = new Collection<string, ActionRowBuilder<ButtonBuilder>>();
+
+    let updated = await ClientCache.invokeProcess(
+      "generate-battle-scene",
+      embed,
       buttons,
+      rows,
+      this.userId,
     );
+
+    embed = updated.embed;
+    buttons = updated.buttons;
+    rows = updated.rows;
+
 
     if (rows.get("switch_2")!.components.length !== 0) {
       await interaction.editReply({
@@ -234,10 +241,18 @@ export default class NPCBattleProcess extends BaseProcess {
 
         if (sections[1] === "turn" || sections[1] === "upkeep") {
           if (sections[1] === "turn") battle.set(`turn`, Number(sections[2]));
+          updated = await ClientCache.invokeProcess(
+            "generate-battle-scene",
+            embed,
+            buttons,
+            rows,
+            this.userId,
+          );
 
-          embed = this.createOrUpdateEmbed(embed, battle);
-          buttons = this.createOrUpdateButtons(buttons, battle);
-          rows = this.createOrUpdateActionRows(rows, buttons);
+          embed = updated.embed;
+          buttons = updated.buttons;
+          rows = updated.rows;
+
 
           if (rows.get("switch_2")!.components.length !== 0) {
             await interaction.editReply({
@@ -360,269 +375,6 @@ export default class NPCBattleProcess extends BaseProcess {
       }
     }
   }
-
-  createOrUpdateEmbed(embed: EmbedBuilder, battle: Collection<string, any>) {
-    const currentPokemons: { [k: string]: number } = {
-      p1: Number(battle.get(`p1:current`)),
-      p2: Number(battle.get("p2:current")),
-    };
-    if (!embed.data.title) {
-      embed.setTitle(`NPC Battle - ${battle.get("npc").name}`);
-    }
-    if (!embed.data.description) {
-      embed.setDescription(`You are now battling ${battle.get("npc").name}!`);
-    } else {
-      // Handle the actions
-      const description: string[] = [];
-      for (const side of ["p1", "p2"]) {
-        const currentAction = battle.get(
-          `${side}:team:${currentPokemons[side]}:turn:${
-            battle.get("turn") - 1
-          }:action`,
-        );
-        description.push(currentAction);
-      }
-
-      embed.setDescription(description.join("\n"));
-    }
-    if (!embed.data.color) embed.setColor("Orange");
-    if (!embed.data.footer) {
-      embed.setFooter({ text: "Select a move at the bottom." });
-    }
-
-    // Setup or Update Images
-    for (const side of ["p1", "p2"]) {
-      const currentPokemonSpecies = battle.get(
-        `${side}:team:${currentPokemons[side]}:species`,
-      ) as string;
-
-      if (side === "p1") {
-        embed.setImage(
-          `https://play.pokemonshowdown.com/sprites/xyani/${currentPokemonSpecies.toLowerCase()}.gif`,
-        );
-      } else {embed.setThumbnail(
-          `https://play.pokemonshowdown.com/sprites/xyani/${currentPokemonSpecies.toLowerCase()}.gif`,
-        );}
-    }
-
-    // Delete Fields so we can rebuild them
-    embed.setFields();
-
-    // Setup or Re-Setup Hp and Pokemon/Level
-    for (const side of ["p1", "", "p2"]) {
-      if (side === "") {
-        embed.addFields(this.blankField);
-        continue;
-      }
-
-      const currentPokemonSpecies = battle.get(
-        `${side}:team:${currentPokemons[side]}:species`,
-      ) as string;
-      const currentPokemonDex = Dex.species.get(currentPokemonSpecies);
-      const currentPokemonLevel = battle.get(
-        `${side}:team:${currentPokemons[side]}:level`,
-      ) as number;
-      const currentPokemonHp = battle.get(
-        `${side}:team:${currentPokemons[side]}:stats:hp`,
-      ) as number;
-      const currentPokemonMaxHp = battle.get(
-        `${side}:team:${currentPokemons[side]}:stats:maxhp`,
-      ) as number;
-
-      if (!Number.isNaN(currentPokemonHp)) {
-        const [hpBar, hpPercent] = filledBar(
-          currentPokemonMaxHp,
-          currentPokemonHp,
-          20,
-        );
-
-        embed.addFields({
-          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name}`,
-          value: `HP: ${hpBar} (${Math.floor(Math.round(Number(hpPercent)))}%)`,
-          inline: true,
-        });
-
-        if (side === "p1") {
-          embed.data.fields![embed.data.fields!.length - 1]!.value +=
-            ` [${currentPokemonHp}/${currentPokemonMaxHp}]`;
-        }
-      } else {
-        embed.addFields({
-          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name}`,
-          value: `HP: Fainted`,
-          inline: true,
-        });
-      }
-    }
-
-    // Setup or Re-Setup Volatiles
-
-    for (const side of ["p1", "", "p2"]) {
-      if (side === "") {
-        embed.addFields(this.blankField);
-        continue;
-      }
-
-      const volatiles = battle.get(
-        `${side}:team:${currentPokemons[side]}:volatile`,
-      ) as string[];
-
-      if (volatiles.length === 0) {
-        embed.addFields(this.blankField);
-        continue;
-      }
-
-      embed.addFields({
-        name: `Volatiles`,
-        value: `${volatiles.join(" | ")}`,
-        inline: true,
-      });
-    }
-
-    // Setup or Re-Setup Stats Boosts
-    for (const side of ["p1", "", "p2"]) {
-      if (side === "") {
-        embed.addFields(this.blankField);
-        continue;
-      }
-      const statBoosts = this.handleStatBoosts(
-        battle.get(`${side}:team:${currentPokemons[side]}:boosts`),
-      );
-      if (statBoosts === "") {
-        embed.addFields(this.blankField);
-        continue;
-      }
-
-      embed.addFields({ name: `Stat Boosts`, value: statBoosts, inline: true });
-    }
-
-    return embed;
-  }
-
-  createOrUpdateButtons(
-    buttons: Collection<string, ButtonBuilder[]>,
-    battle: Collection<string, any>,
-  ) {
-    // Remake the buttons
-    const moveButtons: ButtonBuilder[] = [];
-    const switchButtons: ButtonBuilder[] = [];
-    const optionsButtons: ButtonBuilder[] = [];
-
-    // Setup or Re-Setup Move Buttons
-    const currentIndex = battle.get(`p1:current`) as number;
-
-    for (
-      const pokemonMove of battle.get(
-        `p1:team:${currentIndex}:moves`,
-      ) as string[]
-    ) {
-      const move = Dex.moves.get(pokemonMove);
-
-      if (!move.exists) continue;
-
-      const button = new ButtonBuilder();
-
-      button.setCustomId(`npc-move-${move.id}`);
-      button.setLabel(
-        move.exists
-          ? `${move.name} [PP: ${
-            battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`)
-          }/${battle.get(`p1:team:${currentIndex}:moves:${move.id}:maxpp`)}]`
-          : "---",
-      );
-      button.setStyle(
-        move.exists &&
-          battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`) !== 0
-          ? ButtonStyle.Primary
-          : ButtonStyle.Danger,
-      );
-      button.setDisabled(
-        !(move.exists &&
-          battle.get(`p1:team:${currentIndex}:moves:${move.id}:pp`) !== 0),
-      );
-
-      moveButtons.push(button);
-    }
-
-    for (
-      let i = 0;
-      i < (battle.get(`p1:team`) as PokemonSchema[]).length;
-      i++
-    ) {
-      const dex = Dex.species.get(battle.get(`p1:team:${i}:species`));
-
-      if (!dex.exists) continue;
-
-      const button = new ButtonBuilder();
-
-      button.setCustomId(`npc-switch-${i}`);
-      button.setLabel(`${dex.name}`);
-      button.setStyle(
-        battle.get(`p1:team:${i}:fainted`)
-          ? ButtonStyle.Danger
-          : ButtonStyle.Secondary,
-      );
-      button.setDisabled(
-        battle.get(`p1:team:${i}:fainted`) || i == currentIndex,
-      );
-
-      switchButtons.push(button);
-    }
-
-    const runButton = new ButtonBuilder();
-    runButton.setCustomId("npc-run");
-    runButton.setLabel("Run Away");
-    runButton.setStyle(ButtonStyle.Danger);
-    runButton.setDisabled(true); // We are in a npc battle, you can't run away from a trainer.
-    optionsButtons.push(runButton);
-
-    buttons.set("moves", moveButtons);
-    buttons.set("switch", switchButtons);
-    buttons.set("options", optionsButtons);
-
-    return buttons;
-  }
-
-  createOrUpdateActionRows(
-    rows: Collection<string, ActionRowBuilder<ButtonBuilder>>,
-    buttons: Collection<string, ButtonBuilder[]>,
-  ) {
-    const moveRow: ActionRowBuilder<ButtonBuilder> = new ActionRowBuilder<
-      ButtonBuilder
-    >().addComponents(buttons.get("moves")!);
-    const optionsRow: ActionRowBuilder<ButtonBuilder> = new ActionRowBuilder<
-      ButtonBuilder
-    >().addComponents(buttons.get("options")!);
-
-    const switch1Row: ActionRowBuilder<ButtonBuilder> = new ActionRowBuilder();
-    const switch2Row: ActionRowBuilder<ButtonBuilder> = new ActionRowBuilder();
-
-    const switchButtons = buttons.get("switch")!;
-
-    let pokemonAmount = 0;
-    for (let i = 0; i < switchButtons.length; i++) {
-      if (pokemonAmount > 2) switch2Row.addComponents(switchButtons[i]);
-      else switch1Row.addComponents(switchButtons[i]);
-
-      pokemonAmount += 1;
-    }
-
-    rows.set("moves", moveRow);
-    rows.set("switch_1", switch1Row);
-    rows.set("switch_2", switch2Row);
-    rows.set("options", optionsRow);
-    return rows;
-  }
-
-  blankField: APIEmbedField = { name: `\u200b`, value: "\u200b", inline: true };
-
-  handleStatBoosts = (boosts: { [k: string]: number }) => {
-    const str: string[] = [];
-    for (const stat of ["atk", "def", "spa", "spd", "spe"]) {
-      if (boosts[stat]) str.push(`${boosts[stat]} ${stat.toUpperCase()}`);
-    }
-    return str.join(" | ");
-  };
 
   override async processQuests() {
     await ClientCache.handleQuests(

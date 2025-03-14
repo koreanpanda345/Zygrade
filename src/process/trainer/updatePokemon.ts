@@ -11,11 +11,12 @@ export default class UpdatePokemonProcess extends BaseProcess {
     this.logger.debug(
       `Updating ${pokemon._id} (Species: ${pokemon.species}) for ${pokemon.discordUserId}...`,
     );
+    delete pokemon._id; //hopefully this works as I was thinking it would work.
     await Databases.PokemonCollection.updateOne({
       discordUserId: pokemon.discordUserId,
     }, { $set: pokemon });
     this.logger.info(
-      `Updated ${pokemon._id} (Species: ${pokemon.species}) for ${pokemon.discordUserId}!`,
+      `Updated ${pokemon.species} (Species: ${pokemon.species}) for ${pokemon.discordUserId}!`,
     );
   }
 }
