@@ -6,11 +6,12 @@ import ClientCache from "../../core/cache.ts";
 export default class UpdateTrainersCommand extends BaseCommand {
     constructor() {
         super('update-all-trainers', 'Updates all of the trainer\'s schemas', (data) => data);
+        this.devOnly = true;
     }
 
     override async invoke(interaction: CommandInteraction) {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-        
+
         const trainers = Databases.TrainerCollection.find();
 
         const _trainers = await trainers.toArray();
