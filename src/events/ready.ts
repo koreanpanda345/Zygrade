@@ -12,10 +12,9 @@ export default class ReadyEvent extends BaseEvent {
     this.logger.info(`Ready!`);
     // Loading Commands
     await ClientCache.invokeProcess("reload-command");
-    
-    // Waking up the databases
-    await ClientCache.invokeProcess('get-trainer', '304446682081525772');
-    await ClientCache.invokeProcess('get-route', 'savanna');
 
+    // Waking up the databases
+    await ClientCache.invokeProcess("get-trainer", "304446682081525772");
+    await ClientCache.invokeProcess("get-route", "savanna");
   }
 }

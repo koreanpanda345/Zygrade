@@ -34,8 +34,8 @@ export default class AddPokemonCommand extends BaseCommand {
         });
 
         data.addBooleanOption((option) => {
-          option.setName('shiny');
-          option.setDescription('Make the pokemon to be shiny.');
+          option.setName("shiny");
+          option.setDescription("Make the pokemon to be shiny.");
           return option;
         });
 
@@ -171,7 +171,7 @@ export default class AddPokemonCommand extends BaseCommand {
     const level = interaction.options.get("level")?.value === undefined
       ? 100
       : Number(interaction.options.get("level")!.value);
-    const shiny = interaction.options.get('shiny')?.value || false;
+    const shiny = interaction.options.get("shiny")?.value || false;
     const ability = interaction.options.get("ability")?.value || undefined;
     const nature = interaction.options.get("nature")?.value ||
       await ClientCache.invokeProcess("get-random-nature");

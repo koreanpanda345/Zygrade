@@ -3,7 +3,17 @@ export interface RouteSchema {
   routeid: string;
   encounters: RouteSchemaEncounters[];
   trainers: RouteSchemaTrainers[];
-  items: string[];
+  items: RouteSchemaItemsPool[];
+}
+
+interface RouteSchemaItemsPool {
+  requiredQuestId?: string;
+  items: RouteSchemaItems[];
+}
+
+interface RouteSchemaItems {
+  name: string;
+  rarity: number;
 }
 
 interface RouteSchemaEncounters {

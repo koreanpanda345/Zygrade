@@ -226,8 +226,15 @@ export default class WildBattleProcess extends BaseProcess {
     for await (const chunk of streams.omniscient) {
       this.logger.debug(chunk);
       for (const line of chunk.split("\n")) {
-
-        const result = await ClientCache.invokeProcess('handle-battle', line, interaction, this.userId, embed, buttons, rows);
+        const result = await ClientCache.invokeProcess(
+          "handle-battle",
+          line,
+          interaction,
+          this.userId,
+          embed,
+          buttons,
+          rows,
+        );
 
         if (!result) continue;
 
@@ -237,7 +244,6 @@ export default class WildBattleProcess extends BaseProcess {
         this.handleCatching();
 
         ClientCache.battles.delete(interaction.user.id);
-       
       }
     }
   }

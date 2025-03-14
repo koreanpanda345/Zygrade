@@ -27,7 +27,7 @@ export default class AddPokemonProcess extends BaseProcess {
 
     this.logger.debug(trainer.team);
 
-    await ClientCache.invokeProcess('update-trainer', trainer);
+    await ClientCache.invokeProcess("update-trainer", trainer);
 
     return true;
   }
