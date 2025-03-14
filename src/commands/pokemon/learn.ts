@@ -153,9 +153,7 @@ export default class LearnCommand extends BaseCommand {
         moveName.replace(" ", "").replace("-", "").toLowerCase().trim(),
       );}
 
-    await Databases.PokemonCollection.updateOne({ _id: pokemon._id }, {
-      $set: { moves: pokemon.moves },
-    });
+    await ClientCache.invokeProcess('update-pokemon', pokemon);
     embed.setTitle(`${pokemon.species} learned ${moveName}`);
     embed.setColor(`Green`);
 
