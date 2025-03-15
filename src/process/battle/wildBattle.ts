@@ -334,6 +334,8 @@ export default class WildBattleProcess extends BaseProcess {
           this.wildPokemon!.level,
         );
 
+        await ClientCache.invokeProcess('handle-battle-exp', this.battle.get('p1:team'), this.wildPokemon, this.interaction);
+
         this.wildPokemon!.discordUserId = this.userId;
         this.wildPokemon!.exp = 0;
         this.wildPokemon!.neededExp = neededExp;
