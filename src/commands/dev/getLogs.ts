@@ -77,33 +77,29 @@ export default class GetLogCommand extends BaseCommand {
     const logType = interaction.options.get("log_type")?.value as string;
     const year = interaction.options.get("year")?.value as number ||
       date.getFullYear();
-    const month = interaction.options.get("month")?.value as number ||
-      date.getMonth();
+    const month = (interaction.options.get("month")?.value as number) + 1 ||
+      date.getMonth() + 1;
     const day = interaction.options.get("day")?.value as number ||
       date.getDate();
 
     try {
       const decoder = new TextDecoder("utf-8");
       const file = Deno.readFileSync(
-        `./logs/${year}/${month}/${day}/${logType}.log`,
+        `./logs/${logType}.log`,
       );
 
       const log = decoder.decode(file);
-
-      const lines = log.split("\r\n").reverse();
+      const lines = log.split("\n").filter((x) => x.startsWith(`${year}-${month < 10 ? `0${month}` : month}-${day}`)).reverse();
       const embed = new EmbedBuilder();
       embed.setTitle(`${logType} logs`);
-      embed.setTimestamp(new Date(year, month, day));
+      embed.setTimestamp(date);
       embed.setColor("Random");
 
       for (let i = 0; i < (lines.length < 20 ? lines.length : 20); i++) {
-        if (
-          lines[i].split("\t↳")[0] === undefined ||
-          lines[i].split("\t↳")[1] === undefined
-        ) continue;
+        if (lines[i] === undefined) continue;
         embed.addFields({
-          name: `${lines[i].split("\t↳")[0]}`,
-          value: `${lines[i].split("\t↳")[1]}`,
+          name: `${lines[i].split(":")[0]}`,
+          value: `${lines[i]}`,
         });
       }
 
