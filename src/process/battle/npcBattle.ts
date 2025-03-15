@@ -152,7 +152,6 @@ export default class NPCBattleProcess extends BaseProcess {
       this.userId,
     );
 
-    console.log(updated);
 
     embed = updated.embed;
     buttons = updated.buttons;

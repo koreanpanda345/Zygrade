@@ -29,7 +29,6 @@ export default class GenerateBattleScene extends BaseProcess {
     buttons = this.createOrUpdateButtons(buttons, battle);
     rows = this.createOrUpdateActionRows(rows, buttons);
 
-    console.log(rows);
     return { embed, buttons, rows };
   }
 
