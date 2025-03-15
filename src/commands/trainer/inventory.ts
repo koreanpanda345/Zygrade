@@ -14,10 +14,6 @@ export default class InventoryCommand extends BaseCommand {
 
         const trainer = await ClientCache.invokeProcess('get-trainer', interaction.user.id) as TrainerSchema;
 
-        if (trainer.inventory.inBag.length === 0) {
-            await interaction.editReply({ content: "It seems like your bag is empty! maybe try finding some items!"});
-            return;
-        }
         let page = 1;
         const y = 24;
         const pages: EmbedBuilder[] = [];

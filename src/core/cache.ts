@@ -40,7 +40,6 @@ export default class ClientCache {
   public static async invokeProcess(name: string, ...args: any[]) {
     const process = this.process.get(name);
     if (!process) return false;
-    // this.logger.debug(process);
 
     try {
       return await process.invoke(...args);

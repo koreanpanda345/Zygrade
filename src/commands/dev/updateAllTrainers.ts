@@ -17,10 +17,8 @@ export default class UpdateTrainersCommand extends BaseCommand {
         const _trainers = await trainers.toArray();
 
         for (const trainer of _trainers) {
-            console.log(trainer);
             // @ts-ignore
             if (trainer.inventory === []) trainer.inventory = { inBag: [], onPokemon: []};
-            console.log(trainer);
             await ClientCache.invokeProcess('update-trainer', trainer);
         }
         await interaction.editReply({ content: "Updated all of the trainers."});

@@ -226,7 +226,7 @@ export default class StartCommand extends BaseCommand {
       });
     } catch (error) {
       this.logger.error(error);
-      await ClientCache.invokeMonitor("handle-error", interaction, error);
+      await ClientCache.invokeMonitor("handle-error", error);
     }
   }
 }

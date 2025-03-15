@@ -49,7 +49,7 @@ export default class HandleWildBattleActionsMonitor extends BaseMonitor {
       }
     } catch (error) {
       this.logger.error(error);
-      await ClientCache.invokeMonitor("handle-error", interaction, error);
+      await ClientCache.invokeMonitor("handle-error", error);
     }
   }
 }
