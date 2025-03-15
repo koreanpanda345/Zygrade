@@ -18,7 +18,7 @@ export default class CreateTrainerProcess extends BaseProcess {
     return await Databases.TrainerCollection.insertOne({
       discordUserId: userId,
       team: [pokemonId],
-      inventory: [],
+      inventory: { inBag: [], onPokemon: [] },
       money: 200,
       route: "savanna",
       allowedRoutes: ["savanna"],

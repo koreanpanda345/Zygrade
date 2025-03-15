@@ -11,18 +11,16 @@ export default class HandleErrorMonitor extends BaseMonitor {
     super("handle-error");
   }
 
-  override async invoke(ctx: Message | CommandInteraction, error: any) {
+  override async invoke(interaction: CommandInteraction, error: any) {
     const embed = new EmbedBuilder();
 
     embed.setTitle(`There was an error`);
     embed.setColor("Red");
     embed.setDescription(`\`\`\`${error}\`\`\``);
 
-    if (ctx instanceof Message) {
-      await (ctx.channel as TextChannel).send({ embeds: [embed] });
-    } else {
-      if ()
-      await ctx.reply({ embeds: [embed] });
-    }
+    if (interaction.deferred) await interaction.editReply({ embeds: [embed] });
+    else if (interaction.replied) await interaction.followUp({ embeds: [embed] });
+    else await interaction.reply({ embeds: [embed]});
+    
   }
 }

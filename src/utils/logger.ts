@@ -34,15 +34,6 @@ export default function createLogger(name: string) {
           `logs/${date.getFullYear()}/${date.getMonth()}/${date.getDate()}/warnings.log`,
         level: "warn",
       }),
-      new transports.File({
-        filename:
-          `logs/${date.getFullYear()}/${date.getMonth()}/${date.getDate()}/debug.log`,
-        level: "debug",
-      }),
-      new transports.File({
-        filename:
-          `logs/${date.getFullYear()}/${date.getMonth()}/${date.getDate()}/full.log`,
-      }),
       new transports.Console({
         level: "debug",
         format: combine(label({ label: name }), timestamp(), consoleFormat),
