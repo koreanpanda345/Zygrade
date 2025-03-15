@@ -13,7 +13,6 @@ export interface PokemonSchema {
   nature: string;
   ivs: PokemonSchemaStats;
   evs?: PokemonSchemaStats;
-  item?: string;
 }
 
 export interface PokemonSchemaStats {

@@ -109,7 +109,7 @@ export default class GenerateBattleScene extends BaseProcess {
       );
       const currentPokemonDex = Dex.species.get(currentPokemonSpecies);
       const currentPokemonShiny = battle.get(
-        `${side}:team:${currentPokemon[side]}:shiny`,
+        `${side}:team:${currentPokemon[side]}:shiny`
       );
       const currentPokemonLevel = battle.get(
         `${side}:team:${currentPokemon[side]}:level`,
@@ -140,9 +140,7 @@ export default class GenerateBattleScene extends BaseProcess {
         }
       } else {
         embed.addFields({
-          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name} ${
-            currentPokemonShiny ? "🌟" : ""
-          }`,
+          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name} ${currentPokemonShiny ? '🌟' : ''}`,
           value: `HP: Fainted`,
           inline: true,
         });

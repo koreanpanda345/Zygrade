@@ -32,7 +32,7 @@ export default class NPCBattleProcess extends BaseProcess {
   override async invoke(interaction: CommandInteraction) {
     this.interaction = interaction;
 
-    // await interaction.deferReply();
+    await interaction.deferReply();
 
     this.userId = interaction.user.id;
 
@@ -212,6 +212,7 @@ export default class NPCBattleProcess extends BaseProcess {
     buttons = updated.buttons;
     rows = updated.rows;
 
+
     if (rows.get("switch_2")!.components.length !== 0) {
       await interaction.editReply({
         embeds: [embed],
@@ -251,6 +252,7 @@ export default class NPCBattleProcess extends BaseProcess {
           embed = updated.embed;
           buttons = updated.buttons;
           rows = updated.rows;
+
 
           if (rows.get("switch_2")!.components.length !== 0) {
             await interaction.editReply({
