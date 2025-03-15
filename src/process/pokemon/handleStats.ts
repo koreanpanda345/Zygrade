@@ -24,7 +24,7 @@ export default class HandleStatsProcess extends BaseProcess {
         pokemon.ivs[stat as NonHpStat],
         pokemon.evs === undefined ? 0 : pokemon.evs[stat as NonHpStat],
         pokemon.level,
-        Dex.natures.get(pokemon.nature),
+        Dex.natures.get(pokemon.nature || "Serious"),
       );
     }
 
