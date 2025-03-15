@@ -1,6 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import BaseMonitor from "../../base/BaseMonitor.ts";
 import ClientCache from "../../core/cache.ts";
+import logger from "../../utils/logger.ts";
 
 export default class HandleCommandMonitor extends BaseMonitor {
   constructor() {
@@ -38,7 +39,7 @@ export default class HandleCommandMonitor extends BaseMonitor {
     try {
       await command.invoke(interaction);
     } catch (error) {
-      this.logger.error(error);
+      logger.error('monitor - handle-command', error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

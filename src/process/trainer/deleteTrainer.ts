@@ -1,5 +1,6 @@
 import BaseProcess from "../../base/BaseProcess.ts";
 import Databases from "../../databases/index.ts";
+import logger from "../../utils/logger.ts";
 
 export default class DeleteTrainerProcess extends BaseProcess {
   constructor() {
@@ -14,7 +15,8 @@ export default class DeleteTrainerProcess extends BaseProcess {
     if (!trainer.acknowledged) {
       return false;
     } else {
-      this.logger.info(
+      logger.info(
+        'process - delete-trainer',
         `Deleted ${trainer.deletedCount} trainers with user id ${userId}`,
       );
     }
@@ -26,7 +28,8 @@ export default class DeleteTrainerProcess extends BaseProcess {
     if (!pokemon.acknowledged) {
       return false;
     } else {
-      this.logger.info(
+      logger.info(
+        'process - delete-trainer',
         `Deleted ${pokemon.deletedCount} pokemon with user id ${userId}`,
       );
     }

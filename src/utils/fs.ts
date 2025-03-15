@@ -1,7 +1,6 @@
 import ClientCache from "../core/cache.ts";
-import createLogger from "./logger.ts";
+import logger from "./logger.ts";
 
-const logger = createLogger("fs.ts");
 let uniqueFilePathCounter = 0;
 export async function loadFiles(dir: string) {
   const foldersPath = `./src/${dir}`;
@@ -11,7 +10,7 @@ export async function loadFiles(dir: string) {
     if (folder.isFile && folder.name.endsWith(".ts")) { // we are assuming that it is an event file
       const filePath = `${foldersPath}/${folder.name}#${uniqueFilePathCounter}`
         .replace("src/", "../");
-      logger.debug(`Loading ${filePath}`);
+      logger.debug('utils - fs', `Loading ${filePath}`);
       const { default: file } = await import(`${filePath}`);
       const _file = new file();
       switch (dir) {
@@ -30,7 +29,7 @@ export async function loadFiles(dir: string) {
       for (const dirFile of dirFiles) {
         const filePath = `${filesPath}/${dirFile.name}#${uniqueFilePathCounter}`
           .replace("src/", "../");
-        logger.debug(`Loading ${filePath}`);
+        logger.debug('process - fs', `Loading ${filePath}`);
         const { default: file } = await import(`${filePath}`);
         const _file = new file();
 

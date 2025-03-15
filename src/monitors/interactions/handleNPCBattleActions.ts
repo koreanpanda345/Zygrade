@@ -2,6 +2,7 @@ import { ButtonInteraction } from "discord.js";
 import BaseMonitor from "../../base/BaseMonitor.ts";
 import ClientCache from "../../core/cache.ts";
 import { ObjectReadStream, ObjectReadWriteStream } from "@pkmn/streams";
+import logger from "../../utils/logger.ts";
 
 export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
   constructor() {
@@ -47,7 +48,7 @@ export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
 
       await interaction.deferUpdate();
     } catch (error) {
-      this.logger.error(error);
+      logger.error('monitor - handle-npc-battle-actions', error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

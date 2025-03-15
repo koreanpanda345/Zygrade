@@ -1,6 +1,7 @@
 import BaseProcess from "../../base/BaseProcess.ts";
 import Databases from "../../databases/index.ts";
 import { PokemonSchema } from "../../databases/models/Trainer/Pokemon.ts";
+import logger from "../../utils/logger.ts";
 
 export default class UpdatePokemonProcess extends BaseProcess {
   constructor() {
@@ -8,7 +9,8 @@ export default class UpdatePokemonProcess extends BaseProcess {
   }
 
   override async invoke(pokemon: PokemonSchema) {
-    this.logger.debug(
+    logger.debug(
+      'process - update-pokemon',
       `Updating ${pokemon._id} (Species: ${pokemon.species}) for ${pokemon.discordUserId}...`,
     );
     const _id = pokemon._id;
@@ -16,7 +18,8 @@ export default class UpdatePokemonProcess extends BaseProcess {
     await Databases.PokemonCollection.updateOne({
       _id: _id,
     }, { $set: pokemon });
-    this.logger.info(
+    logger.info(
+      'process - update-pokemon',
       `Updated ${pokemon.species} (Species: ${pokemon.species}) for ${pokemon.discordUserId}!`,
     );
   }

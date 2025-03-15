@@ -1,6 +1,7 @@
 import BaseProcess from "../../base/BaseProcess.ts";
 import Databases from "../../databases/index.ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
+import logger from "../../utils/logger.ts";
 
 export default class UpdateTrainerProcess extends BaseProcess {
   constructor() {
@@ -8,10 +9,10 @@ export default class UpdateTrainerProcess extends BaseProcess {
   }
 
   override async invoke(trainer: TrainerSchema) {
-    this.logger.debug(`Updating ${trainer.discordUserId}...`);
+    logger.debug('process - update-trainer', `Updating ${trainer.discordUserId}...`);
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
     }, { $set: trainer });
-    this.logger.info(`Updated ${trainer.discordUserId}!`);
+    logger.info('process - update-trainer', `Updated ${trainer.discordUserId}!`);
   }
 }

@@ -2,6 +2,7 @@ import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 import Databases from "../../databases/index.ts";
+import logger from "../../utils/logger.ts";
 
 export default class UpdateQuestCommand extends BaseCommand {
   constructor() {
@@ -50,7 +51,7 @@ export default class UpdateQuestCommand extends BaseCommand {
 
       await ClientCache.invokeProcess("update-trainer", trainer);
 
-      this.logger.info(`Updated Quests for ${trainer.discordUserId}`);
+      logger.info('command - update-quest', `Updated Quests for ${trainer.discordUserId}`);
     }
 
     await interaction.editReply({ content: "Updated All Quests" });

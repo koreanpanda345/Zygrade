@@ -2,6 +2,7 @@ import BaseProcess from "../../base/BaseProcess.ts";
 import ClientCache from "../../core/cache.ts";
 import { RouteSchema } from "../../databases/models/Game/Route.ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
+import logger from "../../utils/logger.ts";
 
 export default class CheckTrainerAndRouteProcess extends BaseProcess {
   constructor() {
@@ -13,14 +14,14 @@ export default class CheckTrainerAndRouteProcess extends BaseProcess {
       "get-trainer",
       userid,
     ) as TrainerSchema;
-    this.logger.debug(trainer);
+    logger.debug('process - check-trainer-and-route', trainer);
     if (!trainer) return false;
 
     const route = await ClientCache.invokeProcess(
       "get-route",
       trainer.route,
     ) as RouteSchema;
-    this.logger.debug(route);
+    logger.debug('process - check-trainer-and-route', route);
     if (!route) return false;
 
     return { trainer, route };

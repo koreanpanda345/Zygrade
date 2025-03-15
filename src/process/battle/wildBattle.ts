@@ -18,6 +18,7 @@ import { BattleStreams, RandomPlayerAI } from "@pkmn/sim";
 import { filledBar } from "string-progressbar";
 import { PokemonClient } from "pokenode-ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
+import logger from "../../utils/logger.ts";
 
 export default class WildBattleProcess extends BaseProcess {
   battle: Collection<string, any> = new Collection();
@@ -224,7 +225,7 @@ export default class WildBattleProcess extends BaseProcess {
     }
 
     for await (const chunk of streams.omniscient) {
-      this.logger.debug(chunk);
+      logger.debug('process - wild-battle', chunk);
       for (const line of chunk.split("\n")) {
 
         const result = await ClientCache.invokeProcess('handle-battle', line, interaction, this.userId, embed, buttons, rows);

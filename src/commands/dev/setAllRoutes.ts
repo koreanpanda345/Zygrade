@@ -2,6 +2,7 @@ import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import Databases from "../../databases/index.ts";
 import ClientCache from "../../core/cache.ts";
+import logger from "../../utils/logger.ts";
 
 export default class SetAllRoutesCommand extends BaseCommand {
   constructor() {
@@ -49,7 +50,8 @@ export default class SetAllRoutesCommand extends BaseCommand {
 
       if (!editAllowedRoutes) {
         await ClientCache.invokeProcess("update-trainer", trainer);
-        this.logger.info(
+        logger.info(
+          'command - set-all-routes',
           `Changed route ${trainer.discordUserId} to ${trainer.route}`,
         );
         continue;
@@ -71,7 +73,8 @@ export default class SetAllRoutesCommand extends BaseCommand {
         }
       }
       await ClientCache.invokeProcess("update-trainer", trainer);
-      this.logger.info(
+      logger.info(
+        'command - set-all-routes',
         `Changed route ${trainer.discordUserId} to ${trainer.route} and updated allowed routes to ${trainer.allowedRoutes}`,
       );
     }

@@ -19,6 +19,7 @@ import {
 } from "../../databases/models/Trainer/Pokemon.ts";
 import { PokemonClient } from "pokenode-ts";
 import Databases from "../../databases/index.ts";
+import logger from "../../utils/logger.ts";
 
 export default class StartCommand extends BaseCommand {
   constructor() {
@@ -225,7 +226,7 @@ export default class StartCommand extends BaseCommand {
         });
       });
     } catch (error) {
-      this.logger.error(error);
+      logger.error('command - start', error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

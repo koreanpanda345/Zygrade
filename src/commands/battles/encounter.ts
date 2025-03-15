@@ -3,6 +3,7 @@ import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
 import { RouteSchema } from "../../databases/models/Game/Route.ts";
+import logger from "../../utils/logger.ts";
 
 export default class EncounterCommand extends BaseCommand {
   constructor() {
@@ -22,7 +23,7 @@ export default class EncounterCommand extends BaseCommand {
       "check-trainer-and-route",
       interaction.user.id,
     ) as false | { trainer: TrainerSchema; route: RouteSchema };
-    this.logger.debug(`${interaction.user.id} - ${result}`);
+    logger.debug('command - encounter', `${interaction.user.id} - ${result}`);
     if (!result) {
       await interaction.editReply("Something happened");
       return;

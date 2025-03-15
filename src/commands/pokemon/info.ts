@@ -5,6 +5,7 @@ import { Dex } from "@pkmn/dex";
 import { filledBar } from "string-progressbar";
 import ClientCache from "../../core/cache.ts";
 import { PokemonSchemaStats } from "../../databases/models/Trainer/Pokemon.ts";
+import logger from "../../utils/logger.ts";
 
 export default class InfoCommand extends BaseCommand {
   constructor() {
@@ -99,7 +100,7 @@ export default class InfoCommand extends BaseCommand {
         embeds: [embed],
       });
     } catch (error) {
-      this.logger.error(error);
+      logger.error('command - info', error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

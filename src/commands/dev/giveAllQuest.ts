@@ -1,6 +1,7 @@
 import { CommandInteraction, MessageFlags } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
 import ClientCache from "../../core/cache.ts";
+import logger from "../../utils/logger.ts";
 
 export default class GiveAllQuestCommand extends BaseCommand {
   constructor() {
@@ -40,7 +41,8 @@ export default class GiveAllQuestCommand extends BaseCommand {
         progress: quest.progress,
         completed: false,
       });
-      this.logger.info(
+      logger.info(
+        'command - give-all-quests',
         `Added Quest ${quest.questId} to ${trainer.discordUserId}`,
       );
       await ClientCache.invokeProcess("update-trainer", trainer);

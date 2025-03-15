@@ -3,6 +3,7 @@ import BaseCommand from "../../base/BaseCommand.ts";
 import { loadFiles } from "../../utils/fs.ts";
 import { exec, execSync } from "node:child_process";
 import ClientCache from "../../core/cache.ts";
+import logger from "../../utils/logger.ts";
 
 export default class ReloadCommand extends BaseCommand {
   constructor() {
@@ -15,7 +16,7 @@ export default class ReloadCommand extends BaseCommand {
 
     try {
       execSync("git pull", { cwd: "." });
-      this.logger.info("Pulled Everything from Github");
+      logger.info('command - reload', "Pulled Everything from Github");
 
       ["commands", "events", "monitors", "process", "quests"].map(
         async (
@@ -27,7 +28,7 @@ export default class ReloadCommand extends BaseCommand {
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
-      this.logger.error(error);
+      logger.error('command - reload', error);
       await ClientCache.invokeMonitor("handle-error", error);
     } finally {
       await ClientCache.invokeProcess("reload-command");

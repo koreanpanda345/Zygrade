@@ -5,6 +5,7 @@ import {
   MessageFlags,
 } from "discord.js";
 import BaseCommand from "../../base/BaseCommand.ts";
+import logger from "../../utils/logger.ts";
 
 export default class GetLogCommand extends BaseCommand {
   constructor() {
@@ -111,7 +112,7 @@ export default class GetLogCommand extends BaseCommand {
         flags: MessageFlags.Ephemeral,
       });
     } catch (error) {
-      this.logger.error(error);
+      logger.error('command - get-logs',error);
     }
   }
 }

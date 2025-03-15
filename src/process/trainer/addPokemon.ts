@@ -5,6 +5,7 @@ import Databases from "../../databases/index.ts";
 import ClientCache from "../../core/cache.ts";
 import { TrainerSchema } from "../../databases/models/Trainer/Trainer.ts";
 import { ObjectId } from "mongodb";
+import logger from "../../utils/logger.ts";
 
 export default class AddPokemonProcess extends BaseProcess {
   constructor() {
@@ -23,7 +24,7 @@ export default class AddPokemonProcess extends BaseProcess {
 
     if (trainer.team.length >= 6) return;
 
-    this.logger.debug(trainer.team);
+    logger.debug('process - add-pokemon', trainer.team);
 
     trainer.team.push(_id.insertedId as ObjectId);
 

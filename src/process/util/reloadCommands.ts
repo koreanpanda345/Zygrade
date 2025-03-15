@@ -1,6 +1,7 @@
 import { REST, Routes } from "discord.js";
 import BaseProcess from "../../base/BaseProcess.ts";
 import ClientCache from "../../core/cache.ts";
+import logger from "../../utils/logger.ts";
 
 export default class ReloadCommandProcess extends BaseProcess {
   constructor() {
@@ -20,7 +21,8 @@ export default class ReloadCommandProcess extends BaseProcess {
     );
 
     try {
-      this.logger.info(
+      logger.info(
+        'process - reload-command',
         `Started refreshing ${commandData.length} application (/) commands.`,
       );
 
@@ -32,12 +34,13 @@ export default class ReloadCommandProcess extends BaseProcess {
         { body: commandData },
       );
       // @ts-ignore
-      this.logger.info(
+      logger.info(
+        'process - reload-command',
         // @ts-ignore
         `Successfully reloaded ${data.length} application (/) commands.`,
       );
     } catch (error) {
-      this.logger.error(error);
+      logger.error('process - reload-command', error);
     }
   }
 }

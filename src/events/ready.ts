@@ -1,7 +1,6 @@
-import { REST, Routes } from "discord.js";
 import BaseEvent from "../base/BaseEvent.ts";
 import ClientCache from "../core/cache.ts";
-import { discordClient } from "../../main.ts";
+import logger from "../utils/logger.ts";
 
 export default class ReadyEvent extends BaseEvent {
   constructor() {
@@ -9,7 +8,7 @@ export default class ReadyEvent extends BaseEvent {
   }
 
   public override async invoke() {
-    this.logger.info(`Ready!`);
+    logger.info('event - ready', `Ready!`);
     // Loading Commands
     await ClientCache.invokeProcess("reload-command");
     

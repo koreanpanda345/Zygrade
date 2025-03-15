@@ -3,8 +3,7 @@ import { PokemonSchema } from "./models/Trainer/Pokemon.ts";
 import { TrainerSchema } from "./models/Trainer/Trainer.ts";
 import { RouteSchema } from "./models/Game/Route.ts";
 import { UserSettingsSchema } from "./models/Trainer/UserSettings.ts";
-import { Logger } from "winston";
-import createLogger from "../utils/logger.ts";
+import logger from "../utils/logger.ts";
 export default class Databases {
   static TrainerClient: MongoClient = new MongoClient(
     Deno.env.get("mongodb_trainer_uri".toUpperCase()) as string,
@@ -26,8 +25,6 @@ export default class Databases {
   static GameDb: Db = new Db(this.GameClient, "Game");
   static RouteCollection = this.GameDb.collection<RouteSchema>("routes");
 
-  static logger: Logger = createLogger("database");
-
   static async connectAllDatabases() {
     await this.connectGameDb();
     await this.connectTrainerDb();
@@ -39,10 +36,10 @@ export default class Databases {
     try {
       await this.TrainerClient.connect();
       await this.TrainerClient.db("admin").command({ ping: 1 });
-      this.logger.info(`Connected to Trainer's DB`);
+      logger.info('databases - connectTrainerDb', `Connected to Trainer's DB`);
       return this.TrainerDb;
     } catch (error) {
-      this.logger.error(error);
+      logger.error('databases - connectTrainerDb', error);
       return null;
     }
   }
@@ -51,10 +48,10 @@ export default class Databases {
     try {
       await this.GameClient.connect();
       await this.GameClient.db("admin").command({ ping: 1 });
-      this.logger.info(`Connected to Game's DB`);
+      logger.info('databases - connectGameDb', `Connected to Game's DB`);
       return this.GameDb;
     } catch (error) {
-      this.logger.error(error);
+      logger.error('databases - connectGameDb', error);
       return null;
     }
   }

@@ -6,8 +6,7 @@ import BaseTask from "../base/BaseTask.ts";
 import BaseProcess from "../base/BaseProcess.ts";
 import BaseSimulator from "../base/BaseSimulator.ts";
 import BaseQuest from "../base/BaseQuest.ts";
-import { Logger } from "winston";
-import createLogger from "../utils/logger.ts";
+import logger from "../utils/logger.ts";
 
 export default class ClientCache {
   public static commands: Collection<string, BaseCommand> = new Collection();
@@ -18,7 +17,6 @@ export default class ClientCache {
   public static process: Collection<string, BaseProcess> = new Collection();
   public static tasks: Collection<string, BaseTask> = new Collection();
   public static quests: Collection<string, BaseQuest> = new Collection();
-  public static logger: Logger = createLogger("core - cache");
 
   public static battles: Collection<string, Collection<string, any>> =
     new Collection();
@@ -32,7 +30,7 @@ export default class ClientCache {
     try {
       return await monitor.invoke(...args);
     } catch (error) {
-      this.logger.error(error);
+      logger.error('core - cache - invokeMonitor', error);
       return false;
     }
   }
@@ -44,7 +42,7 @@ export default class ClientCache {
     try {
       return await process.invoke(...args);
     } catch (error) {
-      this.logger.error(error);
+      logger.error('core - cache - invokeProcess', error);
       return false;
     }
   }
@@ -56,7 +54,7 @@ export default class ClientCache {
     try {
       return await simulator.createBattle(user);
     } catch (error) {
-      this.logger.error(error);
+      logger.error('core - cache - getSimulator', error);
       return false;
     }
   }
@@ -69,7 +67,7 @@ export default class ClientCache {
         }
       });
     } catch (error) {
-      this.logger.error(error);
+      logger.error('core - cache - handleQuests', error);
     }
   }
 }
