@@ -21,7 +21,6 @@ export default class HandleErrorMonitor extends BaseMonitor {
     if (ctx instanceof Message) {
       await (ctx.channel as TextChannel).send({ embeds: [embed] });
     } else {
-      if ()
       await ctx.reply({ embeds: [embed] });
     }
   }
