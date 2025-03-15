@@ -23,9 +23,9 @@ export default class AddPokemonProcess extends BaseProcess {
 
     if (trainer.team.length >= 6) return;
 
-    trainer.team.push(_id.insertedId as ObjectId);
-
     this.logger.debug(trainer.team);
+
+    trainer.team.push(_id.insertedId as ObjectId);
 
     await ClientCache.invokeProcess('update-trainer', trainer);
 

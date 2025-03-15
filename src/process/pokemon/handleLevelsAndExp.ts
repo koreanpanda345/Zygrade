@@ -21,8 +21,6 @@ export default class HandleLevelsAndExpProcess extends BaseProcess {
     expAmount: number,
     interaction: CommandInteraction | Message,
   ) {
-    // if (pokemon.species === "gulpin") return;
-    // if (pokemon.species === "shroomish") return;
     pokemon.exp! += expAmount;
 
     const growthRate =
