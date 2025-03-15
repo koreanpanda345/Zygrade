@@ -11,6 +11,7 @@ export default class HandleBattleProcess extends BaseProcess {
     override async invoke(line: string, interaction: CommandInteraction, userid: string, embed: EmbedBuilder, buttons: Collection<string, ButtonBuilder[]>, rows: Collection<string, ActionRowBuilder<ButtonBuilder>>) {
       const sections = line.split("|");
       const battle = ClientCache.battles.get(userid);
+
     
       if (!battle) return false;
 

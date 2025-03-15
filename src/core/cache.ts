@@ -38,7 +38,7 @@ export default class ClientCache {
   public static async invokeProcess(name: string, ...args: any[]) {
     const process = this.process.get(name);
     if (!process) return false;
-
+    logger.debug(`core -cache - invokeProcess`, `invoking ${name}....`);
     try {
       return await process.invoke(...args);
     } catch (error) {

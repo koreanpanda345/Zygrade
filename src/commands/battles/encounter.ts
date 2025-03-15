@@ -13,10 +13,9 @@ export default class EncounterCommand extends BaseCommand {
   override async invoke(interaction: CommandInteraction) {
     await interaction.deferReply();
     if (ClientCache.battles.has(interaction.user.id)) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content:
           "You are already in an encounter. Please finished your current encounter before starting a new one.",
-        flags: MessageFlags.Ephemeral,
       });
     }
     const result = await ClientCache.invokeProcess(
@@ -31,15 +30,18 @@ export default class EncounterCommand extends BaseCommand {
 
     const route = result.route;
 
-    if (route.trainers.length === 0) {
-      return await ClientCache.invokeProcess("wild-battle", interaction);
-    }
+    // Disabling it because my brain hurt so only wild battle for now.
+    return await ClientCache.invokeProcess('wild-battle', interaction);
 
-    const rng = Math.floor(Math.random() * 100);
-    if (rng <= 70) { // 70%
-      await ClientCache.invokeProcess("wild-battle", interaction);
-    } else if (rng >= 70) { // 30%
-      await ClientCache.invokeProcess("npc-battle", interaction);
-    }
+    // if (route.trainers.length === 0) {
+    //   return await ClientCache.invokeProcess("wild-battle", interaction);
+    // }
+
+    // const rng = Math.floor(Math.random() * 100);
+    // if (rng <= 70) { // 70%
+    //   await ClientCache.invokeProcess("wild-battle", interaction);
+    // } else if (rng >= 70) { // 30%
+    //   await ClientCache.invokeProcess("npc-battle", interaction);
+    // }
   }
 }

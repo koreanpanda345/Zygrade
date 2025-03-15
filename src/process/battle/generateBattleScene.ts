@@ -28,6 +28,8 @@ export default class GenerateBattleScene extends BaseProcess {
     embed = await this.createOrUpdateEmbed(embed, battle);
     buttons = this.createOrUpdateButtons(buttons, battle);
     rows = this.createOrUpdateActionRows(rows, buttons);
+
+    console.log(rows);
     return { embed, buttons, rows };
   }
 
@@ -49,7 +51,7 @@ export default class GenerateBattleScene extends BaseProcess {
           `You encounter a wild ${battle.get("wildPokemon").species}!`,
         );
       } else if (battle.get(`type`) === "npc") {
-        embed.setDescription(``);
+        embed.setDescription(`You encounterd ${battle.get('npc').name}!`);
       }
     } else {
       const description: string[] = [];
@@ -72,7 +74,6 @@ export default class GenerateBattleScene extends BaseProcess {
         text: "Select a move at the bottom.",
       });
     }
-
     for (const side of ["p1", "p2"]) {
       const currentPokemonSpecies = battle.get(
         `${side}:team:${currentPokemon[side]}:species`,
