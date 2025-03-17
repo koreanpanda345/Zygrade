@@ -31,17 +31,17 @@ export default class EncounterCommand extends BaseCommand {
     const route = result.route;
 
     // Testing NPC Battles
-    // return await ClientCache.invokeProcess('npc-battle', interaction);
+    return await ClientCache.invokeProcess('wild-battle', interaction);
 
-    if (route.trainers.length === 0) {
-      return await ClientCache.invokeProcess("wild-battle", interaction);
-    }
+    // if (route.trainers.length === 0) {
+    //   return await ClientCache.invokeProcess("wild-battle", interaction);
+    // }
 
-    const rng = Math.floor(Math.random() * 100);
-    if (rng <= 70) { // 70%
-      await ClientCache.invokeProcess("wild-battle", interaction);
-    } else if (rng >= 70) { // 30%
-      await ClientCache.invokeProcess("npc-battle", interaction);
-    }
+    // const rng = Math.floor(Math.random() * 100);
+    // if (rng <= 70) { // 70%
+    //   await ClientCache.invokeProcess("wild-battle", interaction);
+    // } else if (rng >= 70) { // 30%
+    //   await ClientCache.invokeProcess("npc-battle", interaction);
+    // }
   }
 }
