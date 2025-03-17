@@ -99,6 +99,7 @@ export default class NPCBattleProcess extends BaseProcess {
         const stats = await ClientCache.invokeProcess('handle-stats', dex, pokemon[i]);
         const path = `${side}:team:${i}`;
         battle.set(`${path}`, pokemon[i]);
+        battle.set(`${side}:team:index:${dex.id}`, i);
         battle.set(`${path}:species`, dex.name);
         battle.set(`${path}:level`, pokemon[i].level);
         battle.set(`${path}:stats:hp`, stats.hp);
