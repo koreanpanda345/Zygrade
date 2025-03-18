@@ -16,7 +16,7 @@ export default class DeleteTrainerProcess extends BaseProcess {
       return false;
     } else {
       logger.info(
-        'process - delete-trainer',
+        "process - delete-trainer",
         `Deleted ${trainer.deletedCount} trainers with user id ${userId}`,
       );
     }
@@ -29,7 +29,7 @@ export default class DeleteTrainerProcess extends BaseProcess {
       return false;
     } else {
       logger.info(
-        'process - delete-trainer',
+        "process - delete-trainer",
         `Deleted ${pokemon.deletedCount} pokemon with user id ${userId}`,
       );
     }

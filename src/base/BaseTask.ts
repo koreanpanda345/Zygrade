@@ -1,4 +1,3 @@
-
 export default abstract class BaseTask {
   name: string;
   interval?: number;

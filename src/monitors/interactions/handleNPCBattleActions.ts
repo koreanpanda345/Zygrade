@@ -48,7 +48,7 @@ export default class HandleNPCBattleActionsMonitor extends BaseMonitor {
 
       await interaction.deferUpdate();
     } catch (error) {
-      logger.error('monitor - handle-npc-battle-actions', error);
+      logger.error("monitor - handle-npc-battle-actions", error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

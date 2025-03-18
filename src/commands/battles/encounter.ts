@@ -22,7 +22,7 @@ export default class EncounterCommand extends BaseCommand {
       "check-trainer-and-route",
       interaction.user.id,
     ) as false | { trainer: TrainerSchema; route: RouteSchema };
-    logger.debug('command - encounter', `${interaction.user.id} - ${result}`);
+    logger.debug("command - encounter", `${interaction.user.id} - ${result}`);
     if (!result) {
       await interaction.editReply("Something happened");
       return;
@@ -31,7 +31,7 @@ export default class EncounterCommand extends BaseCommand {
     const route = result.route;
 
     // Testing NPC Battles
-    return await ClientCache.invokeProcess('wild-battle', interaction);
+    return await ClientCache.invokeProcess("wild-battle", interaction);
 
     // if (route.trainers.length === 0) {
     //   return await ClientCache.invokeProcess("wild-battle", interaction);

@@ -8,10 +8,13 @@ export default class GetAllTrainersProcess extends BaseProcess {
   }
 
   override async invoke() {
-    logger.debug('process - get-all-trainer', `Grabbing all Trainers....`);
+    logger.debug("process - get-all-trainer", `Grabbing all Trainers....`);
     const trainers = Databases.TrainerCollection.find();
     const data = await trainers.toArray();
-    logger.info('process - get-all-trainer', `Grabbed ${data.length} trainers!`);
+    logger.info(
+      "process - get-all-trainer",
+      `Grabbed ${data.length} trainers!`,
+    );
 
     return data;
   }

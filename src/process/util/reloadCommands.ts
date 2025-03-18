@@ -22,7 +22,7 @@ export default class ReloadCommandProcess extends BaseProcess {
 
     try {
       logger.info(
-        'process - reload-command',
+        "process - reload-command",
         `Started refreshing ${commandData.length} application (/) commands.`,
       );
 
@@ -35,12 +35,12 @@ export default class ReloadCommandProcess extends BaseProcess {
       );
       // @ts-ignore
       logger.info(
-        'process - reload-command',
+        "process - reload-command",
         // @ts-ignore
         `Successfully reloaded ${data.length} application (/) commands.`,
       );
     } catch (error) {
-      logger.error('process - reload-command', error);
+      logger.error("process - reload-command", error);
     }
   }
 }

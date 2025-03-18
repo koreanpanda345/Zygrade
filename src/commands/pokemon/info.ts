@@ -44,12 +44,19 @@ export default class InfoCommand extends BaseCommand {
       const embed = new EmbedBuilder();
 
       embed.setTitle(
-        `${interaction.user.username}'s Level ${pokemon.level} ${species.name} ${pokemon.shiny ? '🌟' : ''}`,
+        `${interaction.user.username}'s Level ${pokemon.level} ${species.name} ${
+          pokemon.shiny ? "🌟" : ""
+        }`,
       );
 
-      const sprite = await ClientCache.invokeProcess('get-sprite', species.id, pokemon.shiny, false);
+      const sprite = await ClientCache.invokeProcess(
+        "get-sprite",
+        species.id,
+        pokemon.shiny,
+        false,
+      );
       embed.setImage(
-        sprite
+        sprite,
       );
       const neededExp = pokemon.neededExp;
       const [bar, percent] = filledBar(neededExp!, pokemon.exp!);
@@ -100,7 +107,7 @@ export default class InfoCommand extends BaseCommand {
         embeds: [embed],
       });
     } catch (error) {
-      logger.error('command - info', error);
+      logger.error("command - info", error);
       await ClientCache.invokeMonitor("handle-error", error);
     }
   }

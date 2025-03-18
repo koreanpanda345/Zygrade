@@ -36,10 +36,10 @@ export default class Databases {
     try {
       await this.TrainerClient.connect();
       await this.TrainerClient.db("admin").command({ ping: 1 });
-      logger.info('databases - connectTrainerDb', `Connected to Trainer's DB`);
+      logger.info("databases - connectTrainerDb", `Connected to Trainer's DB`);
       return this.TrainerDb;
     } catch (error) {
-      logger.error('databases - connectTrainerDb', error);
+      logger.error("databases - connectTrainerDb", error);
       return null;
     }
   }
@@ -48,10 +48,10 @@ export default class Databases {
     try {
       await this.GameClient.connect();
       await this.GameClient.db("admin").command({ ping: 1 });
-      logger.info('databases - connectGameDb', `Connected to Game's DB`);
+      logger.info("databases - connectGameDb", `Connected to Game's DB`);
       return this.GameDb;
     } catch (error) {
-      logger.error('databases - connectGameDb', error);
+      logger.error("databases - connectGameDb", error);
       return null;
     }
   }

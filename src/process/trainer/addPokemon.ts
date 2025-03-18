@@ -24,11 +24,11 @@ export default class AddPokemonProcess extends BaseProcess {
 
     if (trainer.team.length >= 6) return;
 
-    logger.debug('process - add-pokemon', trainer.team);
+    logger.debug("process - add-pokemon", trainer.team);
 
     trainer.team.push(_id.insertedId as ObjectId);
 
-    await ClientCache.invokeProcess('update-trainer', trainer);
+    await ClientCache.invokeProcess("update-trainer", trainer);
 
     return true;
   }

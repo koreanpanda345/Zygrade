@@ -30,7 +30,7 @@ export default class ClientCache {
     try {
       return await monitor.invoke(...args);
     } catch (error) {
-      logger.error('core - cache - invokeMonitor', error);
+      logger.error("core - cache - invokeMonitor", error);
       return false;
     }
   }
@@ -42,7 +42,7 @@ export default class ClientCache {
     try {
       return await process.invoke(...args);
     } catch (error) {
-      logger.error('core - cache - invokeProcess', error);
+      logger.error("core - cache - invokeProcess", error);
       return false;
     }
   }
@@ -54,7 +54,7 @@ export default class ClientCache {
     try {
       return await simulator.createBattle(user);
     } catch (error) {
-      logger.error('core - cache - getSimulator', error);
+      logger.error("core - cache - getSimulator", error);
       return false;
     }
   }
@@ -67,7 +67,7 @@ export default class ClientCache {
         }
       });
     } catch (error) {
-      logger.error('core - cache - handleQuests', error);
+      logger.error("core - cache - handleQuests", error);
     }
   }
 }

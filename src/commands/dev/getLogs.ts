@@ -89,7 +89,9 @@ export default class GetLogCommand extends BaseCommand {
       );
 
       const log = decoder.decode(file);
-      const lines = log.split("\n").filter((x) => x.startsWith(`${year}-${month < 10 ? `0${month}` : month}-${day}`)).reverse();
+      const lines = log.split("\n").filter((x) =>
+        x.startsWith(`${year}-${month < 10 ? `0${month}` : month}-${day}`)
+      ).reverse();
       const embed = new EmbedBuilder();
       embed.setTitle(`${logType} logs`);
       embed.setTimestamp(date);
@@ -108,7 +110,7 @@ export default class GetLogCommand extends BaseCommand {
         flags: MessageFlags.Ephemeral,
       });
     } catch (error) {
-      logger.error('command - get-logs',error);
+      logger.error("command - get-logs", error);
     }
   }
 }

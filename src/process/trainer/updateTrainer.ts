@@ -9,10 +9,16 @@ export default class UpdateTrainerProcess extends BaseProcess {
   }
 
   override async invoke(trainer: TrainerSchema) {
-    logger.debug('process - update-trainer', `Updating ${trainer.discordUserId}...`);
+    logger.debug(
+      "process - update-trainer",
+      `Updating ${trainer.discordUserId}...`,
+    );
     await Databases.TrainerCollection.updateOne({
       discordUserId: trainer.discordUserId,
     }, { $set: trainer });
-    logger.info('process - update-trainer', `Updated ${trainer.discordUserId}!`);
+    logger.info(
+      "process - update-trainer",
+      `Updated ${trainer.discordUserId}!`,
+    );
   }
 }

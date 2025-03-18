@@ -51,7 +51,10 @@ export default class UpdateQuestCommand extends BaseCommand {
 
       await ClientCache.invokeProcess("update-trainer", trainer);
 
-      logger.info('command - update-quest', `Updated Quests for ${trainer.discordUserId}`);
+      logger.info(
+        "command - update-quest",
+        `Updated Quests for ${trainer.discordUserId}`,
+      );
     }
 
     await interaction.editReply({ content: "Updated All Quests" });

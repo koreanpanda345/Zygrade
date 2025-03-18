@@ -10,7 +10,7 @@ export default class UpdatePokemonProcess extends BaseProcess {
 
   override async invoke(pokemon: PokemonSchema) {
     logger.debug(
-      'process - update-pokemon',
+      "process - update-pokemon",
       `Updating ${pokemon._id} (Species: ${pokemon.species}) for ${pokemon.discordUserId}...`,
     );
     const _id = pokemon._id;
@@ -19,7 +19,7 @@ export default class UpdatePokemonProcess extends BaseProcess {
       _id: _id,
     }, { $set: pokemon });
     logger.info(
-      'process - update-pokemon',
+      "process - update-pokemon",
       `Updated ${pokemon.species} (Species: ${pokemon.species}) for ${pokemon.discordUserId}!`,
     );
   }

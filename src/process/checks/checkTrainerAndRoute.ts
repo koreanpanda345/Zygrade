@@ -14,14 +14,14 @@ export default class CheckTrainerAndRouteProcess extends BaseProcess {
       "get-trainer",
       userid,
     ) as TrainerSchema;
-    logger.debug('process - check-trainer-and-route', trainer);
+    logger.debug("process - check-trainer-and-route", trainer);
     if (!trainer) return false;
 
     const route = await ClientCache.invokeProcess(
       "get-route",
       trainer.route,
     ) as RouteSchema;
-    logger.debug('process - check-trainer-and-route', route);
+    logger.debug("process - check-trainer-and-route", route);
     if (!route) return false;
 
     return { trainer, route };

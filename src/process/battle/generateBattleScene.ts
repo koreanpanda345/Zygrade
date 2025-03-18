@@ -50,7 +50,7 @@ export default class GenerateBattleScene extends BaseProcess {
           `You encounter a wild ${battle.get("wildPokemon").species}!`,
         );
       } else if (battle.get(`type`) === "npc") {
-        embed.setDescription(`You encounterd ${battle.get('npc').name}!`);
+        embed.setDescription(`You encounterd ${battle.get("npc").name}!`);
       }
     } else {
       const description: string[] = [];
@@ -109,7 +109,7 @@ export default class GenerateBattleScene extends BaseProcess {
       );
       const currentPokemonDex = Dex.species.get(currentPokemonSpecies);
       const currentPokemonShiny = battle.get(
-        `${side}:team:${currentPokemon[side]}:shiny`
+        `${side}:team:${currentPokemon[side]}:shiny`,
       );
       const currentPokemonLevel = battle.get(
         `${side}:team:${currentPokemon[side]}:level`,
@@ -140,7 +140,9 @@ export default class GenerateBattleScene extends BaseProcess {
         }
       } else {
         embed.addFields({
-          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name} ${currentPokemonShiny ? '🌟' : ''}`,
+          name: `Level ${currentPokemonLevel} ${currentPokemonDex.name} ${
+            currentPokemonShiny ? "🌟" : ""
+          }`,
           value: `HP: Fainted`,
           inline: true,
         });

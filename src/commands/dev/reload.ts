@@ -16,19 +16,17 @@ export default class ReloadCommand extends BaseCommand {
 
     try {
       execSync("git pull", { cwd: "." });
-      logger.info('command - reload', "Pulled Everything from Github");
+      logger.info("command - reload", "Pulled Everything from Github");
 
       ["commands", "events", "monitors", "process", "quests"].map(
         async (
           dir,
         ) => await loadFiles(dir),
-      )
-
-
+      );
 
       await interaction.editReply({ content: `The bot was reloaded!` });
     } catch (error) {
-      logger.error('command - reload', error);
+      logger.error("command - reload", error);
       await ClientCache.invokeMonitor("handle-error", error);
     } finally {
       await ClientCache.invokeProcess("reload-command");

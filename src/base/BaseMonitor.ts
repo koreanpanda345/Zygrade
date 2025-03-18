@@ -1,5 +1,3 @@
-
-
 export default abstract class BaseMonitor {
   name: string;
   ignoreBots?: boolean;

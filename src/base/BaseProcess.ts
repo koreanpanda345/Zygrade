@@ -1,5 +1,3 @@
-
-
 export default abstract class BaseProcess {
   name: string;
   constructor(name: string) {

@@ -42,7 +42,7 @@ export default class GiveAllQuestCommand extends BaseCommand {
         completed: false,
       });
       logger.info(
-        'command - give-all-quests',
+        "command - give-all-quests",
         `Added Quest ${quest.questId} to ${trainer.discordUserId}`,
       );
       await ClientCache.invokeProcess("update-trainer", trainer);

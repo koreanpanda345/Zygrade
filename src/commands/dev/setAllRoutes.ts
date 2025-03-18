@@ -51,7 +51,7 @@ export default class SetAllRoutesCommand extends BaseCommand {
       if (!editAllowedRoutes) {
         await ClientCache.invokeProcess("update-trainer", trainer);
         logger.info(
-          'command - set-all-routes',
+          "command - set-all-routes",
           `Changed route ${trainer.discordUserId} to ${trainer.route}`,
         );
         continue;
@@ -74,7 +74,7 @@ export default class SetAllRoutesCommand extends BaseCommand {
       }
       await ClientCache.invokeProcess("update-trainer", trainer);
       logger.info(
-        'command - set-all-routes',
+        "command - set-all-routes",
         `Changed route ${trainer.discordUserId} to ${trainer.route} and updated allowed routes to ${trainer.allowedRoutes}`,
       );
     }
